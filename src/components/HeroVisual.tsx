@@ -14,12 +14,12 @@ import { QuoteIcon } from './icons'
 type Tok = [cls: string, text: string]
 
 const codeLines: Tok[][] = [
-  [['kw', 'const'], ['fn', ' learn'], ['op', ' = '], ['br', '() => {']],
+  [['kw', 'Career'], ['fn', ' learn'], ['br', '() {']],
   [['ind', '  '], ['kw', 'while'], ['br', ' ('], ['fn', 'motivated'], ['br', ') {']],
-  [['ind', '    '], ['fn', 'build'], ['br', '('], ['str', "'project'"], ['br', ')']],
-  [['ind', '    '], ['fn', 'practice'], ['br', '()']],
+  [['ind', '    '], ['fn', 'build'], ['br', '('], ['str', '"project"'], ['br', ');']],
+  [['ind', '    '], ['fn', 'practice'], ['br', '();']],
   [['ind', '  '], ['br', '}']],
-  [['kw', '  return'], ['fn', ' career'], ['op', '.'], ['fn', 'inIT'], ['br', '()']],
+  [['kw', '  return'], ['fn', ' career'], ['op', '.'], ['fn', 'inIT'], ['br', '();']],
   [['br', '}']],
 ]
 
@@ -74,7 +74,7 @@ export default function HeroVisual() {
           <span className="hv__dot hv__dot--r" />
           <span className="hv__dot hv__dot--y" />
           <span className="hv__dot hv__dot--g" />
-          <span className="hv__file">main.ts</span>
+          <span className="hv__file">main.java</span>
         </div>
         <div className="hv__code">
           {linesMeta.map(({ toks }, i) => (
