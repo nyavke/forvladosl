@@ -1,10 +1,12 @@
 import { useEffect, useState } from 'react'
-import { CodeIcon, MenuIcon, CloseIcon } from './icons'
+import { MenuIcon, CloseIcon } from './icons'
+import logo from '../assets/logo.png'
 
 const navLinks = [
   { href: '#top', label: 'Главная', active: true },
   { href: '#courses', label: 'Курсы' },
   { href: '#tech', label: 'Технологии' },
+  { href: '#formats', label: 'Формат обучения' },
   { href: '#community', label: 'Форум' },
   { href: '#about', label: 'О нас' },
 ]
@@ -24,10 +26,7 @@ export default function Header() {
     <header className={`header ${scrolled ? 'header--scrolled' : ''}`}>
       <div className="header__inner">
         <a className="brand" href="#top" aria-label="CodeCore — на главную">
-          <span className="brand__logo">
-            <CodeIcon className="brand__logo-icon" />
-          </span>
-          <span className="brand__name">CodeCore</span>
+          <img className="brand__img" src={logo} alt="CodeCore" />
         </a>
 
         <nav className="header__nav" aria-label="Основная навигация">

@@ -2,6 +2,7 @@ import Header from './components/Header'
 import Hero from './components/Hero'
 import ValueProps from './components/ValueProps'
 import CoursesTech from './components/CoursesTech'
+import LearningFormats from './components/LearningFormats'
 import Community from './components/Community'
 import CTA from './components/CTA'
 import Footer from './components/Footer'
@@ -15,6 +16,7 @@ export default function App() {
         <Hero />
         <ValueProps />
         <CoursesTech />
+        <LearningFormats />
         <Community />
         <CTA />
       </main>

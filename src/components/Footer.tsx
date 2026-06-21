@@ -1,11 +1,11 @@
 import {
-  CodeIcon,
   VkIcon,
   TelegramIcon,
   DiscordIcon,
   YoutubeIcon,
   GitHubIcon,
 } from './icons'
+import logo from '../assets/logo.png'
 
 const columns = [
   {
@@ -37,10 +37,7 @@ export default function Footer() {
       <div className="footer__inner">
         <div className="footer__brand-col">
           <a className="brand brand--invert" href="#top">
-            <span className="brand__logo">
-              <CodeIcon className="brand__logo-icon" />
-            </span>
-            <span className="brand__name">CodeCore</span>
+            <img className="brand__img" src={logo} alt="CodeCore" />
           </a>
           <p className="footer__tagline">
             Практическая платформа для изучения программирования и развития в IT.
