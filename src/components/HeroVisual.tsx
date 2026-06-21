@@ -42,6 +42,35 @@ const prefersReduced = () =>
   typeof window !== 'undefined' &&
   window.matchMedia('(prefers-reduced-motion: reduce)').matches
 
+// Отзывы — крутятся автоматически, плавно перетекая один в другой (кроссфейд).
+const reviews = [
+  {
+    initial: 'А',
+    name: 'Артём С.',
+    role: 'Frontend-разработчик',
+    text: 'CodeCore дал мне не просто знания, а реальные навыки и уверенность в разработке. Спасибо команде и сообществу!',
+  },
+  {
+    initial: 'М',
+    name: 'Марина К.',
+    role: 'Python-разработчик',
+    text: 'Сменила профессию за полгода: от полного нуля до первой работы в IT. Практика с первого дня реально работает!',
+  },
+  {
+    initial: 'Д',
+    name: 'Дмитрий Л.',
+    role: 'Java-разработчик',
+    text: 'Реальные проекты в портфолио и поддержка менторов сыграли решающую роль на собеседовании. Рекомендую!',
+  },
+  {
+    initial: 'С',
+    name: 'Софья Р.',
+    role: 'Fullstack-разработчик',
+    text: 'Лучшее комьюнити: всегда помогут с задачей и подскажут. Учиться здесь по-настоящему интересно и не страшно.',
+  },
+]
+const REVIEW_MS = 4800 // как часто меняется отзыв
+
 export default function HeroVisual() {
   // Ленивая инициализация: при reduced-motion сразу показываем весь код,
   // без вспышки пустого окна.
@@ -66,6 +95,17 @@ export default function HeroVisual() {
   // Каретка стоит на активной строке (первая, чей конец ещё не пройден).
   let caretLine = linesMeta.findIndex((l) => typed <= l.end)
   if (caretLine === -1) caretLine = linesMeta.length - 1
+
+  // Активный отзыв в карусели.
+  const [activeReview, setActiveReview] = useState(0)
+  useEffect(() => {
+    if (prefersReduced()) return
+    const id = setInterval(
+      () => setActiveReview((i) => (i + 1) % reviews.length),
+      REVIEW_MS,
+    )
+    return () => clearInterval(id)
+  }, [])
 
   return (
     <div className="hv">
@@ -95,18 +135,31 @@ export default function HeroVisual() {
       </div>
 
       <figure className="hv__review">
-        <QuoteIcon className="hv__review-quote" />
-        <blockquote className="hv__review-text">
-          CodeCore дал мне не просто знания, а реальные навыки и уверенность
-          в разработке. Спасибо команде и сообществу!
-        </blockquote>
-        <figcaption className="hv__review-author">
-          <span className="hv__review-avatar">А</span>
-          <span>
-            <span className="hv__review-name">Артём С.</span>
-            <span className="hv__review-role">Frontend-разработчик</span>
-          </span>
-        </figcaption>
+        {reviews.map((r, i) => (
+          <div
+            className={`hv__slide ${i === activeReview ? 'is-active' : ''}`}
+            key={r.name}
+            aria-hidden={i !== activeReview}
+          >
+            <QuoteIcon className="hv__review-quote" />
+            <blockquote className="hv__review-text">{r.text}</blockquote>
+            <figcaption className="hv__review-author">
+              <span className="hv__review-avatar">{r.initial}</span>
+              <span>
+                <span className="hv__review-name">{r.name}</span>
+                <span className="hv__review-role">{r.role}</span>
+              </span>
+            </figcaption>
+          </div>
+        ))}
+        <div className="hv__dots" aria-hidden="true">
+          {reviews.map((r, i) => (
+            <span
+              className={`hv__dot-i ${i === activeReview ? 'is-active' : ''}`}
+              key={r.name}
+            />
+          ))}
+        </div>
       </figure>
     </div>
   )

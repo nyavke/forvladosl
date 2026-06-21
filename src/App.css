@@ -42,6 +42,7 @@
 
 /* ---------- Brand ---------- */
 .brand {
+  position: relative;
   display: inline-flex;
   align-items: center;
   gap: 12px;
@@ -51,6 +52,43 @@
   height: 40px;
   width: auto;
   display: block;
+}
+
+/* Бегущий блик-«перелив» по логотипу. Маской ограничиваем форму логотипа,
+   чтобы блик скользил только по нему, а не по прозрачному фону. */
+.brand::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(
+    115deg,
+    transparent 38%,
+    rgba(255, 255, 255, 0.65) 50%,
+    transparent 62%
+  );
+  background-size: 220% 100%;
+  background-repeat: no-repeat;
+  -webkit-mask: url(./assets/logo.png) left center / contain no-repeat;
+  mask: url(./assets/logo.png) left center / contain no-repeat;
+  animation: logo-shine 5s ease-in-out infinite;
+}
+
+@keyframes logo-shine {
+  0% {
+    background-position: 220% 0;
+  }
+  35%,
+  100% {
+    background-position: -120% 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .brand::after {
+    animation: none;
+    opacity: 0;
+  }
 }
 
 .brand__logo {
@@ -488,13 +526,53 @@
   right: -14px;
   bottom: -28px;
   width: min(280px, 78%);
-  padding: 18px 18px 16px;
+  min-height: 184px;
   border-radius: 16px;
   background: rgba(20, 18, 42, 0.92);
   border: 1px solid rgba(139, 92, 255, 0.35);
   backdrop-filter: blur(14px);
   box-shadow: 0 24px 60px rgba(0, 0, 0, 0.45);
   animation: hv-float-soft 7.5s ease-in-out 1.3s infinite;
+}
+
+/* Слайды-отзывы наложены друг на друга и плавно перетекают (кроссфейд). */
+.hv__slide {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  padding: 18px 18px 22px;
+  opacity: 0;
+  transform: translateY(6px);
+  transition: opacity 700ms var(--ease-out), transform 700ms var(--ease-out);
+  pointer-events: none;
+}
+
+.hv__slide.is-active {
+  opacity: 1;
+  transform: none;
+}
+
+.hv__dots {
+  position: absolute;
+  bottom: 9px;
+  right: 16px;
+  display: flex;
+  gap: 5px;
+}
+
+.hv__dot-i {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: rgba(139, 92, 255, 0.32);
+  transition: background 300ms var(--ease-out), width 300ms var(--ease-out);
+}
+
+.hv__dot-i.is-active {
+  width: 16px;
+  border-radius: 3px;
+  background: var(--grad);
 }
 
 .hv__review-quote {
@@ -514,6 +592,7 @@
   display: flex;
   align-items: center;
   gap: 10px;
+  margin-top: auto; /* автор всегда у нижнего края слайда */
 }
 
 .hv__review-avatar {
