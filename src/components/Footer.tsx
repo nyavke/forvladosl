@@ -87,7 +87,7 @@ export default function Footer() {
       </div>
 
       <div className="footer__bottom">
-        <span>© 2024 CodeCore. Все права защищены.</span>
+        <span>© 2026 CodeCore. Все права защищены.</span>
       </div>
     </footer>
   )
