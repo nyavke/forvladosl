@@ -8,6 +8,7 @@ import {
   StarIcon,
 } from './icons'
 import HeroVisual from './HeroVisual'
+import StatValue from './StatValue'
 
 const stats = [
   { icon: LayersIcon, value: '30+', label: 'технологий' },
@@ -52,7 +53,9 @@ export default function Hero() {
                 <Icon />
               </span>
               <div>
-                <dt className="hero__stat-value">{value}</dt>
+                <dt className="hero__stat-value">
+                  <StatValue value={value} />
+                </dt>
                 <dd className="hero__stat-label">{label}</dd>
               </div>
             </div>
