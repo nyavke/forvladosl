@@ -1,9 +1,12 @@
 import { RocketIcon } from './icons'
+import { useReveal } from '../hooks/useReveal'
 
 export default function CTA() {
+  const ref = useReveal<HTMLElement>()
+
   return (
-    <section className="section cta-wrap">
-      <div className="cta" id="register">
+    <section className="section cta-wrap" ref={ref}>
+      <div className="cta reveal reveal--scale" id="register">
         <span className="cta__icon">
           <RocketIcon />
         </span>

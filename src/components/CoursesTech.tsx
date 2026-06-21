@@ -1,3 +1,4 @@
+import type { CSSProperties } from 'react'
 import {
   JavaIcon,
   SpringIcon,
@@ -6,6 +7,7 @@ import {
   StarIcon,
   ArrowRightIcon,
 } from './icons'
+import { useReveal } from '../hooks/useReveal'
 
 /**
  * Статичные данные для превью. На бою заменяются getPopularCourses()
@@ -58,8 +60,10 @@ const technologies = [
 ]
 
 export default function CoursesTech() {
+  const ref = useReveal<HTMLElement>()
+
   return (
-    <section className="section ct" id="courses">
+    <section className="section ct" id="courses" ref={ref}>
       <div className="ct__inner">
         {/* Популярные курсы */}
         <div className="ct__col">
@@ -72,8 +76,12 @@ export default function CoursesTech() {
           </div>
 
           <ul className="course-list">
-            {courses.map((c) => (
-              <li className={`course-row course-row--${c.accent}`} key={c.title}>
+            {courses.map((c, i) => (
+              <li
+                className={`course-row course-row--${c.accent} reveal`}
+                key={c.title}
+                style={{ '--reveal-i': i } as CSSProperties}
+              >
                 <span className="course-row__icon">
                   <c.icon />
                 </span>
@@ -101,7 +109,7 @@ export default function CoursesTech() {
             </a>
           </div>
 
-          <div className="tech" id="tech">
+          <div className="tech reveal reveal--scale" id="tech">
             <ul className="tech__tags">
               {technologies.map((t) => (
                 <li className="tech__tag" key={t}>

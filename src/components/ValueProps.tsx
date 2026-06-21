@@ -1,4 +1,6 @@
+import type { CSSProperties } from 'react'
 import { BookIcon, CodeIcon, UsersIcon, DiplomaIcon } from './icons'
+import { useReveal } from '../hooks/useReveal'
 
 const props = [
   {
@@ -24,15 +26,20 @@ const props = [
 ]
 
 export default function ValueProps() {
+  const ref = useReveal<HTMLElement>()
+
   return (
-    <section className="section value" id="about">
+    <section className="section value" id="about" ref={ref}>
       <div className="value__inner">
         <div className="value__intro">
-          <h2 className="value__title">
+          <h2 className="value__title reveal">
             CodeCore —<br />
             больше, чем курсы
           </h2>
-          <p className="value__text">
+          <p
+            className="value__text reveal"
+            style={{ '--reveal-i': 1 } as CSSProperties}
+          >
             Мы создаём качественные учебные материалы, практику в реальных
             проектах и живое общение. Наша цель — помочь тебе стать уверенным
             разработчиком и построить карьеру в IT.
@@ -40,8 +47,12 @@ export default function ValueProps() {
         </div>
 
         <ul className="value__grid">
-          {props.map(({ icon: Icon, title, text }) => (
-            <li className="value-item" key={title}>
+          {props.map(({ icon: Icon, title, text }, i) => (
+            <li
+              className="value-item reveal"
+              key={title}
+              style={{ '--reveal-i': i + 1 } as CSSProperties}
+            >
               <span className="value-item__icon">
                 <Icon />
               </span>

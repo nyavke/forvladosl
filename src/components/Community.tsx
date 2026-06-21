@@ -1,4 +1,6 @@
+import type { CSSProperties } from 'react'
 import { CheckIcon, ArrowRightIcon, UsersIcon, CommunityIcon } from './icons'
+import { useReveal } from '../hooks/useReveal'
 
 const points = [
   'Более 15 000 участников',
@@ -11,22 +13,31 @@ const points = [
 const avatars = ['А', 'М', 'К', 'Д', 'С', 'Л', 'Р', 'Н']
 
 export default function Community() {
+  const ref = useReveal<HTMLElement>()
+
   return (
-    <section className="section community" id="community">
+    <section className="section community" id="community" ref={ref}>
       <div className="community__inner">
         <div className="community__text">
-          <h2 className="community__title">
+          <h2 className="community__title reveal">
             Сильное сообщество —<br />
             твой рост
           </h2>
-          <p className="community__desc">
+          <p
+            className="community__desc reveal"
+            style={{ '--reveal-i': 1 } as CSSProperties}
+          >
             Общайся на форуме, участвуй в обсуждениях, делись проектами и находи
             единомышленников.
           </p>
 
           <ul className="community__list">
-            {points.map((p) => (
-              <li className="community__point" key={p}>
+            {points.map((p, i) => (
+              <li
+                className="community__point reveal"
+                key={p}
+                style={{ '--reveal-i': i + 2 } as CSSProperties}
+              >
                 <span className="community__check">
                   <CheckIcon />
                 </span>
@@ -35,13 +46,17 @@ export default function Community() {
             ))}
           </ul>
 
-          <a className="btn btn--primary btn--lg" href="#forum">
+          <a
+            className="btn btn--primary btn--lg reveal"
+            href="#forum"
+            style={{ '--reveal-i': 6 } as CSSProperties}
+          >
             Перейти на форум
             <ArrowRightIcon className="btn__icon" />
           </a>
         </div>
 
-        <div className="community__visual" aria-hidden="true">
+        <div className="community__visual reveal reveal--scale" aria-hidden="true">
           <div className="cv__glow" />
           <div className="cv__avatars">
             {avatars.map((a, i) => (
