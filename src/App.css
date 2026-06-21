@@ -616,6 +616,13 @@
   gap: clamp(28px, 4vw, 52px);
 }
 
+/* Колонка — флекс, чтобы её контент (список / блок технологий) тянулся
+   на всю высоту строки грида и низ обеих колонок был на одном уровне. */
+.ct__col {
+  display: flex;
+  flex-direction: column;
+}
+
 .ct__head {
   display: flex;
   align-items: center;
@@ -749,6 +756,9 @@
 
 /* tech */
 .tech {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
   padding: 24px 24px 26px;
   border-radius: 18px;
   background: var(--card);
@@ -785,6 +795,7 @@
 }
 
 .tech__note {
+  margin-top: auto;
   font-size: 13.5px;
   line-height: 1.55;
   color: var(--muted);
