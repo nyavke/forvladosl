@@ -15,29 +15,6 @@
   background-attachment: fixed;
 }
 
-/* Амбиентное свечение — медленно дрейфует, чтобы фон «дышал» и страница
-   не выглядела статичной. Под контентом (z-index: -1), не ловит клики. */
-.page::after {
-  content: '';
-  position: fixed;
-  inset: -10%;
-  z-index: -1;
-  pointer-events: none;
-  background:
-    radial-gradient(500px 380px at 22% 28%, rgba(123, 47, 245, 0.1), transparent 60%),
-    radial-gradient(460px 360px at 80% 72%, rgba(59, 107, 245, 0.09), transparent 60%);
-  animation: ambient-drift 19s ease-in-out infinite alternate;
-}
-
-@keyframes ambient-drift {
-  from {
-    transform: translate3d(-2%, -1%, 0) scale(1);
-  }
-  to {
-    transform: translate3d(3%, 2%, 0) scale(1.08);
-  }
-}
-
 /* Иконки UIcons: центрируем глиф внутри его бокса. */
 .fi {
   display: inline-flex;
@@ -1186,8 +1163,7 @@
   .hero__col--visual,
   .hv__window,
   .hv__review,
-  .accent,
-  .page::after {
+  .accent {
     animation: none;
   }
   .hv__caret {
