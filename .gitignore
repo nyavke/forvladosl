@@ -1,0 +1,20 @@
+# dependencies
+node_modules
+
+# build
+dist
+
+# local env
+.env
+.env.local
+
+# logs
+*.log
+
+# typescript build info
+*.tsbuildinfo
+
+# editor / OS
+.DS_Store
+.vscode
+.idea
