@@ -38,6 +38,11 @@ const TOTAL_CHARS = cursor
 const CHAR_MS = 20 // скорость печати; ~2с на весь сниппет
 const START_DELAY = 420 // даём hero-входу начаться, потом печатаем
 
+// Тот же сниппет обычным текстом — стартовое содержимое редактируемого поля.
+const plainCode = codeLines
+  .map((line) => line.map(([, text]) => text).join(''))
+  .join('\n')
+
 const prefersReduced = () =>
   typeof window !== 'undefined' &&
   window.matchMedia('(prefers-reduced-motion: reduce)').matches
@@ -107,31 +112,43 @@ export default function HeroVisual() {
     return () => clearInterval(id)
   }, [])
 
+  // Когда печать допечаталась — отдаём окно пользователю: можно писать своё.
+  const editable = typed >= TOTAL_CHARS
+
   return (
     <div className="hv">
-      <div className="hv__window" aria-hidden="true">
+      <div className="hv__window">
         <div className="hv__bar">
           <span className="hv__dot hv__dot--r" />
           <span className="hv__dot hv__dot--y" />
           <span className="hv__dot hv__dot--g" />
           <span className="hv__file">main.java</span>
         </div>
-        <div className="hv__code">
-          {linesMeta.map(({ toks }, i) => (
-            <div className="hv__line" key={i}>
-              {toks.map((t, j) => {
-                const shown = Math.max(0, Math.min(t.text.length, typed - t.start))
-                if (shown <= 0) return null
-                return (
-                  <span className={`hv__t hv__t--${t.cls}`} key={j}>
-                    {t.text.slice(0, shown)}
-                  </span>
-                )
-              })}
-              {caretLine === i && <span className="hv__caret" />}
-            </div>
-          ))}
-        </div>
+        {editable ? (
+          <textarea
+            className="hv__code hv__editor"
+            defaultValue={plainCode}
+            spellCheck={false}
+            aria-label="Редактор кода — попробуй написать своё"
+          />
+        ) : (
+          <div className="hv__code" aria-hidden="true">
+            {linesMeta.map(({ toks }, i) => (
+              <div className="hv__line" key={i}>
+                {toks.map((t, j) => {
+                  const shown = Math.max(0, Math.min(t.text.length, typed - t.start))
+                  if (shown <= 0) return null
+                  return (
+                    <span className={`hv__t hv__t--${t.cls}`} key={j}>
+                      {t.text.slice(0, shown)}
+                    </span>
+                  )
+                })}
+                {caretLine === i && <span className="hv__caret" />}
+              </div>
+            ))}
+          </div>
+        )}
       </div>
 
       <figure className="hv__review">
