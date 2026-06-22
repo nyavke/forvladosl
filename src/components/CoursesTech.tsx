@@ -1,4 +1,5 @@
 import type { CSSProperties } from 'react'
+import { Link } from 'react-router-dom'
 import {
   JavaIcon,
   SpringIcon,
@@ -100,10 +101,10 @@ export default function CoursesTech() {
         <div className="ct__col">
           <div className="ct__head">
             <h2 className="ct__title">Изучай современные технологии</h2>
-            <a className="ct__more" href="#tech">
+            <Link className="ct__more" to="/technologies">
               Все технологии
               <ArrowRightIcon className="ct__more-icon" />
-            </a>
+            </Link>
           </div>
 
           <div className="tech reveal reveal--scale" id="tech">

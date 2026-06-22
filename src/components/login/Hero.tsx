@@ -1,5 +1,6 @@
 import { CodeIcon, UsersIcon, ShieldIcon } from '../icons'
 import Illustration from '../Illustration'
+import ThemeToggle from '../ThemeToggle'
 import logo from '../../assets/logo.png'
 
 const features = [
@@ -18,6 +19,7 @@ export default function Hero() {
           </span>
           <span className="brand__tagline">Учись. Создавай. Развивайся.</span>
         </div>
+        <ThemeToggle className="theme-toggle--page" />
       </header>
 
       <h1 className="hero__title">
