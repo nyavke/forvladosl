@@ -1,16 +1,12 @@
 import { Link } from 'react-router-dom'
-import {
-  VkIcon,
-  TelegramIcon,
-  DiscordIcon,
-  YoutubeIcon,
-  GitHubIcon,
-} from './icons'
+import { TelegramIcon } from './icons'
 import logo from '../assets/logo.png'
 
 // to — внутренний маршрут/якорь главной (рендерится через <Link>),
-// href — внешняя ссылка-заглушка (рендерится через <a>).
-const columns = [
+// href — внешняя ссылка (рендерится через <a>).
+type FooterLink = { label: string; to: string } | { label: string; href: string }
+
+const columns: { title: string; links: FooterLink[] }[] = [
   {
     title: 'Навигация',
     links: [
@@ -33,17 +29,9 @@ const columns = [
   },
 ]
 
-const brandSocials = [
-  { icon: VkIcon, label: 'ВКонтакте' },
-  { icon: TelegramIcon, label: 'Telegram' },
-  { icon: GitHubIcon, label: 'GitHub' },
-]
-
-const channelSocials = [
-  { icon: DiscordIcon, label: 'Discord' },
-  { icon: TelegramIcon, label: 'Telegram' },
-  { icon: VkIcon, label: 'ВКонтакте' },
-  { icon: YoutubeIcon, label: 'YouTube' },
+// Реальные соцсети проекта — только Telegram.
+const socials = [
+  { icon: TelegramIcon, label: 'Telegram', href: 'https://t.me/Gagauz_006' },
 ]
 
 export default function Footer() {
@@ -58,8 +46,15 @@ export default function Footer() {
             Практическая платформа для изучения программирования и развития в IT.
           </p>
           <div className="footer__socials">
-            {brandSocials.map(({ icon: Icon, label }) => (
-              <a className="footer__social" key={label} href="#" aria-label={label}>
+            {socials.map(({ icon: Icon, label, href }) => (
+              <a
+                className="footer__social"
+                key={label}
+                href={href}
+                target="_blank"
+                rel="noreferrer"
+                aria-label={label}
+              >
                 <Icon />
               </a>
             ))}
@@ -85,22 +80,21 @@ export default function Footer() {
 
         <div className="footer__col">
           <span className="footer__col-title">Контакты</span>
-          <a className="footer__link" href="mailto:info@codecore.ru">
-            info@codecore.ru
+          <a className="footer__link" href="mailto:georgy.kesya@yandex.ru">
+            georgy.kesya@yandex.ru
           </a>
-          <a className="footer__link" href="tel:+79991234567">
-            +7 (999) 123-45-67
+          <a className="footer__link" href="tel:+79915690534">
+            +7 (991) 569-05-34
           </a>
-          <span className="footer__link footer__link--static">Москва, Россия</span>
-
-          <span className="footer__col-title footer__col-title--sm">Мы в соцсетях</span>
-          <div className="footer__socials">
-            {channelSocials.map(({ icon: Icon, label }, i) => (
-              <a className="footer__social" key={`${label}-${i}`} href="#" aria-label={label}>
-                <Icon />
-              </a>
-            ))}
-          </div>
+          <a
+            className="footer__link"
+            href="https://t.me/Gagauz_006"
+            target="_blank"
+            rel="noreferrer"
+          >
+            Telegram @Gagauz_006
+          </a>
+          <span className="footer__link footer__link--static">Самозанятый · Кёся Георгий</span>
         </div>
       </div>
 
