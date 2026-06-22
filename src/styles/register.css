@@ -886,10 +886,11 @@
   position: absolute;
   top: 0;
   bottom: 0;
-  left: -65%;
+  left: 0;
   width: 45%;
   pointer-events: none;
-  transform: skewX(-18deg);
+  /* transform вместо left — анимация на композитном слое, без reflow. */
+  transform: translateX(-144%) skewX(-18deg);
   background: linear-gradient(100deg, transparent, rgba(255, 255, 255, 0.38), transparent);
 }
 @media (hover: hover) and (pointer: fine) {
@@ -899,7 +900,7 @@
 }
 @keyframes btn-shine {
   to {
-    left: 125%;
+    transform: translateX(278%) skewX(-18deg);
   }
 }
 @media (prefers-reduced-motion: reduce) {

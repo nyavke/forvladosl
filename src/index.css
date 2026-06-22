@@ -38,6 +38,9 @@
 html {
   scroll-behavior: smooth;
   scroll-padding-top: 88px;
+  /* Резервируем место под скроллбар всегда: когда модалка ставит на body
+     overflow:hidden, ширина контента не прыгает (нет горизонтального сдвига). */
+  scrollbar-gutter: stable;
 }
 
 html,
