@@ -36,7 +36,7 @@ const socials = [
 
 export default function Footer() {
   return (
-    <footer className="footer">
+    <footer className="footer" id="contacts">
       <div className="footer__inner">
         <div className="footer__brand-col">
           <Link className="brand brand--invert" to="/">

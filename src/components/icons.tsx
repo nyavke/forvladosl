@@ -1,4 +1,4 @@
-import type { HTMLAttributes } from 'react'
+import type { HTMLAttributes, ReactElement } from 'react'
 
 /**
  * Иконки — шрифтовой набор Flaticon UIcons (Bold Rounded + Brands),
@@ -6,6 +6,9 @@ import type { HTMLAttributes } from 'react'
  */
 
 type IconProps = HTMLAttributes<HTMLElement>
+
+/** Тип компонента-иконки (для сопоставления глифов из API). */
+export type IconComponent = (props: IconProps) => ReactElement
 
 const uicon =
   (glyph: string) =>
@@ -68,6 +71,18 @@ export const EyeIcon = uicon('fi-br-eye')
 export const EyeOffIcon = uicon('fi-br-eye-crossed')
 export const ArrowLeftIcon = uicon('fi-br-arrow-left')
 export const GoogleIcon = uicon('fi-brands-google')
+
+// курсы / профиль / навигация авторизованного пользователя
+export const BooksIcon = uicon('fi-br-books')
+export const LogoutIcon = uicon('fi-br-sign-out-alt')
+export const AdminIcon = uicon('fi-br-shield-check')
+export const SettingsIcon = uicon('fi-br-settings')
+export const CameraIcon = uicon('fi-br-camera')
+export const PhoneIcon = uicon('fi-br-phone-call')
+export const HomeIcon = uicon('fi-br-home')
+export const ClockIcon = uicon('fi-br-clock')
+export const CheckCircleIcon = uicon('fi-br-check-circle')
+export const PlusIcon = uicon('fi-br-plus')
 
 // соцсети (футер)
 export const VkIcon = uicon('fi-brands-vk')

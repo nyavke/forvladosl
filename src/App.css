@@ -5,6 +5,9 @@
 
 .scope-home .page {
   position: relative;
+  /* Своя стекинг-зона: декоративные слои (aurora ::before / grain ::after)
+     ложатся над фоном страницы, но под контентом и шапкой. */
+  isolation: isolate;
   min-height: 100vh;
   /* Шапка фиксированная (position: fixed) — освобождаем под неё место сверху,
      чтобы контент не уезжал под меню. */
@@ -260,7 +263,11 @@
 }
 
 .scope-home .header__mobile.is-open {
-  max-height: 420px;
+  /* Запас под все пункты + блок действий авторизованного пользователя
+     (чип, «Выйти», «Админ»). Если не влезает на низком экране — скроллим,
+     чтобы кнопка «Выйти» не обрезалась. */
+  max-height: min(88vh, 760px);
+  overflow-y: auto;
   padding-block: 12px 22px;
   border-bottom: 1px solid rgba(120, 110, 220, 0.16);
 }
@@ -798,15 +805,19 @@
 /* ---------- Courses + Tech ---------- */
 .scope-home .ct__inner {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  /* minmax(0, 1fr) — колонки строго по 50%: иначе широкий контент
+     (marquee с width:max-content) распирает свою колонку и ломает раскладку. */
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
   gap: clamp(28px, 4vw, 52px);
 }
 
 /* Колонка — флекс, чтобы её контент (список / блок технологий) тянулся
-   на всю высоту строки грида и низ обеих колонок был на одном уровне. */
+   на всю высоту строки грида и низ обеих колонок был на одном уровне.
+   min-width: 0 разрешает колонке сжиматься, не давая контенту распирать грид. */
 .scope-home .ct__col {
   display: flex;
   flex-direction: column;
+  min-width: 0;
 }
 
 .scope-home .ct__head {
@@ -1983,5 +1994,635 @@
 
   .scope-home .footer__inner {
     grid-template-columns: 1fr;
+  }
+}
+
+/* ============================================================
+   Авторизация в шапке: чип пользователя, «Выйти», «Админ»
+   ============================================================ */
+.scope-home .btn--danger {
+  color: #fff;
+  background: linear-gradient(90deg, #f5455c 0%, #e23a6e 100%);
+  box-shadow: 0 12px 26px rgba(229, 58, 92, 0.34);
+}
+@media (hover: hover) and (pointer: fine) {
+  .scope-home .btn--danger:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 16px 36px rgba(229, 58, 92, 0.5);
+  }
+}
+
+.scope-home .user-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  padding: 8px 16px 8px 13px;
+  border-radius: 12px;
+  background: var(--field-bg);
+  border: 1px solid var(--field-border);
+  color: var(--text);
+  font-size: 14px;
+  font-weight: 600;
+  transition: border-color 180ms var(--ease-out), background 180ms var(--ease-out);
+}
+.scope-home .user-chip__icon {
+  font-size: 15px;
+  color: #b99bff;
+}
+@media (hover: hover) and (pointer: fine) {
+  .scope-home .user-chip:hover {
+    border-color: rgba(139, 92, 255, 0.5);
+    background: rgba(30, 30, 56, 0.85);
+  }
+}
+
+/* ============================================================
+   Поля формы в scope-home (профиль) — те же токены, что в login
+   ============================================================ */
+.scope-home .field {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+}
+.scope-home .field__label {
+  font-size: 13.5px;
+  font-weight: 600;
+  color: #d6d7e6;
+}
+.scope-home .field__control {
+  position: relative;
+  display: flex;
+  align-items: center;
+  background: var(--field-bg);
+  border: 1px solid var(--field-border);
+  border-radius: 12px;
+  transition: border-color 180ms var(--ease-out), box-shadow 180ms var(--ease-out);
+}
+.scope-home .field__control:focus-within {
+  border-color: rgba(139, 92, 255, 0.65);
+  box-shadow: 0 0 0 3px rgba(123, 47, 245, 0.18);
+}
+.scope-home .field__icon {
+  font-size: 18px;
+  line-height: 1;
+  margin: 0 12px;
+  color: var(--muted-2);
+  flex-shrink: 0;
+}
+.scope-home .field__control input,
+.scope-home .field__control textarea {
+  flex: 1;
+  width: 100%;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: var(--text);
+  font-size: 15px;
+  padding: 13px 14px 13px 0;
+  resize: vertical;
+}
+.scope-home .field__control--area {
+  align-items: stretch;
+}
+.scope-home .field__control--area textarea {
+  padding: 13px 14px;
+  min-height: 96px;
+  font-family: inherit;
+  line-height: 1.5;
+}
+.scope-home .field__control input::placeholder,
+.scope-home .field__control textarea::placeholder {
+  color: #5e6080;
+}
+.scope-home .field__hint {
+  align-self: flex-end;
+  font-size: 12px;
+  color: var(--muted-2);
+}
+.scope-home .form__error {
+  margin: 2px 0 0;
+  padding: 10px 14px;
+  border-radius: 10px;
+  background: rgba(229, 58, 92, 0.12);
+  border: 1px solid rgba(229, 58, 92, 0.32);
+  color: #ff97a8;
+  font-size: 13.5px;
+}
+
+/* ============================================================
+   Профиль пользователя (/profile)
+   ============================================================ */
+.scope-home .profile {
+  padding-top: clamp(28px, 5vh, 52px);
+  padding-bottom: clamp(44px, 7vh, 88px);
+  position: relative;
+  z-index: 1;
+}
+.scope-home .profile__title {
+  font-size: clamp(30px, 4vw, 48px);
+  font-weight: 800;
+  letter-spacing: -1px;
+  margin-bottom: 28px;
+}
+.scope-home .profile__loading {
+  color: var(--muted);
+  font-size: 16px;
+}
+.scope-home .profile__grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  align-items: start;
+}
+
+.scope-home .profile-card {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  padding: 30px;
+  border-radius: 20px;
+  background: var(--card);
+  border: 1px solid var(--card-border);
+  backdrop-filter: blur(14px);
+}
+.scope-home .profile-card__head {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+.scope-home .avatar {
+  position: relative;
+  flex-shrink: 0;
+  width: 84px;
+  height: 84px;
+  border-radius: 50%;
+  border: 2px solid rgba(139, 92, 255, 0.5);
+  background: var(--grad-soft);
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  padding: 0;
+}
+.scope-home .avatar__img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.scope-home .avatar__initials {
+  font-size: 28px;
+  font-weight: 800;
+  color: #fff;
+}
+.scope-home .avatar__overlay {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  font-size: 22px;
+  color: #fff;
+  background: rgba(8, 8, 18, 0.55);
+  opacity: 0;
+  transition: opacity 180ms var(--ease-out);
+}
+@media (hover: hover) and (pointer: fine) {
+  .scope-home .avatar:hover .avatar__overlay {
+    opacity: 1;
+  }
+}
+.scope-home .avatar:active {
+  transform: scale(0.96);
+}
+.scope-home .profile-card__id {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.scope-home .profile-card__name {
+  font-size: 21px;
+  font-weight: 800;
+  letter-spacing: -0.3px;
+  word-break: break-word;
+}
+.scope-home .profile-card__login {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 13.5px;
+  color: var(--muted);
+}
+.scope-home .profile-card__login-icon {
+  font-size: 13px;
+  color: var(--muted-2);
+}
+
+.scope-home .profile-courses {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  padding: 30px;
+  border-radius: 20px;
+  background: var(--card);
+  border: 1px solid var(--card-border);
+  backdrop-filter: blur(14px);
+}
+.scope-home .profile-courses__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+}
+.scope-home .profile-courses__title {
+  font-size: 20px;
+  font-weight: 800;
+}
+.scope-home .profile-courses__head-right {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+.scope-home .profile-courses__pager {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.scope-home .profile-courses__arrow {
+  width: 32px;
+  height: 32px;
+  border-radius: 9px;
+  display: grid;
+  place-items: center;
+  background: var(--field-bg);
+  border: 1px solid var(--field-border);
+  color: var(--text);
+  font-size: 13px;
+  transition: transform 150ms var(--ease-out), border-color 150ms var(--ease-out),
+    background 150ms var(--ease-out);
+}
+@media (hover: hover) and (pointer: fine) {
+  .scope-home .profile-courses__arrow:hover {
+    border-color: rgba(139, 92, 255, 0.5);
+    background: rgba(30, 30, 56, 0.85);
+  }
+}
+.scope-home .profile-courses__arrow:active {
+  transform: scale(0.9);
+}
+.scope-home .profile-courses__page {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--muted);
+  min-width: 28px;
+  text-align: center;
+}
+.scope-home .profile-courses__more {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 14px;
+  color: #b99bff;
+  transition: gap 160ms var(--ease-out);
+}
+@media (hover: hover) and (pointer: fine) {
+  .scope-home .profile-courses__more:hover {
+    gap: 11px;
+  }
+}
+.scope-home .profile-courses__more-icon {
+  font-size: 13px;
+}
+.scope-home .profile-courses__empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 14px;
+  padding: 30px 10px;
+  color: var(--muted);
+}
+.scope-home .profile-courses__empty-icon {
+  width: 64px;
+  height: 64px;
+  border-radius: 16px;
+  display: grid;
+  place-items: center;
+  font-size: 26px;
+  color: #b99bff;
+  background: rgba(123, 47, 245, 0.12);
+  border: 1px solid rgba(123, 47, 245, 0.26);
+}
+.scope-home .profile-courses__list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.scope-home .profile-course {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px;
+  border-radius: 14px;
+  background: var(--field-bg);
+  border: 1px solid var(--field-border);
+}
+.scope-home .profile-course__icon {
+  flex-shrink: 0;
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  display: grid;
+  place-items: center;
+  font-size: 19px;
+  color: #fff;
+  background: rgba(123, 47, 245, 0.2);
+  border: 1px solid rgba(123, 47, 245, 0.3);
+}
+.scope-home .profile-course__body {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.scope-home .profile-course__name {
+  font-size: 15px;
+  font-weight: 700;
+  line-height: 1.25;
+}
+.scope-home .profile-course__meta {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 13px;
+  color: var(--muted);
+}
+.scope-home .profile-course__meta-icon {
+  font-size: 12px;
+  color: var(--muted-2);
+}
+
+/* Правая колонка профиля: курсы + смена пароля стопкой. */
+.scope-home .profile__col {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  min-width: 0;
+}
+
+/* ---------- Смена пароля ---------- */
+.scope-home .profile-security__head {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+.scope-home .profile-security__icon {
+  flex-shrink: 0;
+  width: 46px;
+  height: 46px;
+  border-radius: 12px;
+  display: grid;
+  place-items: center;
+  font-size: 20px;
+  color: #b99bff;
+  background: rgba(123, 47, 245, 0.14);
+  border: 1px solid rgba(123, 47, 245, 0.3);
+}
+.scope-home .profile-security__title {
+  font-size: 20px;
+  font-weight: 800;
+}
+.scope-home .profile-security__hint {
+  margin-top: 3px;
+  font-size: 13.5px;
+  color: var(--muted);
+}
+.scope-home .profile-security__fields {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.scope-home .profile-security__submit {
+  align-self: flex-start;
+}
+
+/* Кнопка показать/скрыть пароль внутри поля (scope-home). */
+.scope-home .field__toggle {
+  background: none;
+  border: none;
+  color: var(--muted-2);
+  display: grid;
+  place-items: center;
+  padding: 0 14px;
+  font-size: 17px;
+  transition: color 180ms var(--ease-out), transform 140ms var(--ease-out);
+}
+.scope-home .field__toggle:active {
+  transform: scale(0.9);
+}
+@media (hover: hover) and (pointer: fine) {
+  .scope-home .field__toggle:hover {
+    color: #b99bff;
+  }
+}
+
+/* Сообщение об успехе (смена пароля). */
+.scope-home .form__success {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin: 2px 0 0;
+  padding: 10px 14px;
+  border-radius: 10px;
+  background: rgba(16, 185, 129, 0.12);
+  border: 1px solid rgba(16, 185, 129, 0.32);
+  color: #34d399;
+  font-size: 13.5px;
+}
+.scope-home .form__success-icon {
+  font-size: 13px;
+}
+
+/* ---------- Адаптив профиля ---------- */
+@media (max-width: 900px) {
+  .scope-home .profile__grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ============================================================
+   Декоративные эффекты (заимствовано из современных AI-лендингов)
+   — пер. правилам baze.md: без новых зависимостей, чистый CSS/React.
+   ============================================================ */
+
+/* ---- Aurora: медленно «дышащий» цветной фон за контентом ---- */
+.scope-home .page::before {
+  content: '';
+  position: fixed;
+  inset: -25%;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    radial-gradient(36% 36% at 22% 28%, rgba(123, 47, 245, 0.34), transparent 60%),
+    radial-gradient(32% 32% at 78% 22%, rgba(59, 107, 245, 0.30), transparent 60%),
+    radial-gradient(40% 40% at 68% 78%, rgba(226, 90, 168, 0.22), transparent 62%),
+    radial-gradient(30% 30% at 30% 80%, rgba(40, 200, 220, 0.16), transparent 62%);
+  filter: blur(46px) saturate(120%);
+  animation: aurora-drift 24s var(--ease-in-out) infinite alternate;
+}
+@keyframes aurora-drift {
+  0% {
+    transform: translate3d(-3%, -2%, 0) scale(1) rotate(0deg);
+  }
+  50% {
+    transform: translate3d(3%, 2%, 0) scale(1.08) rotate(2deg);
+  }
+  100% {
+    transform: translate3d(-2%, 3%, 0) scale(1.05) rotate(-2deg);
+  }
+}
+
+/* ---- Film grain: тонкая плёнка шума поверх всего ---- */
+.scope-home .page::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: 3;
+  pointer-events: none;
+  opacity: 0.05;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 140px 140px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .scope-home .page::before {
+    animation: none;
+  }
+}
+
+/* ---- Spotlight-hover: блик за курсором внутри карточки ---- */
+.scope-home .spotlight {
+  position: relative;
+}
+.scope-home .spotlight::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 240ms var(--ease-out);
+  background: radial-gradient(
+    240px circle at var(--spot-x, 50%) var(--spot-y, 50%),
+    rgba(167, 107, 255, 0.18),
+    transparent 62%
+  );
+}
+@media (hover: hover) and (pointer: fine) {
+  .scope-home .spotlight:hover::after {
+    opacity: 1;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .scope-home .spotlight::after {
+    display: none;
+  }
+}
+
+/* ---- Marquee: бесконечная бегущая лента ---- */
+.scope-home .marquee {
+  overflow: hidden;
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+  mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+}
+.scope-home .marquee__track {
+  display: flex;
+  width: max-content;
+  animation-name: marquee-scroll;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+}
+.scope-home .marquee__track--reverse {
+  animation-direction: reverse;
+}
+.scope-home .marquee__group {
+  display: flex;
+  gap: 9px;
+  padding-right: 9px;
+  flex-shrink: 0;
+}
+@keyframes marquee-scroll {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+@media (hover: hover) and (pointer: fine) {
+  .scope-home .marquee:hover .marquee__track {
+    animation-play-state: paused;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .scope-home .marquee__track {
+    animation: none;
+  }
+}
+.scope-home .tech__marquees {
+  /* Заполняем свободную высоту карточки и центрируем ленты, чтобы
+     не оставалось пустоты, когда правая колонка тянется по левой. */
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 16px;
+  margin-bottom: 18px;
+  min-width: 0;
+}
+.scope-home .marquee {
+  min-width: 0;
+  max-width: 100%;
+}
+/* Тег внутри ленты не должен переносить текст и сжиматься. */
+.scope-home .marquee .tech__tag {
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+/* ---- Shine-sweep: блик пробегает по primary-кнопке на ховере ---- */
+.scope-home .btn--primary {
+  position: relative;
+  overflow: hidden;
+}
+.scope-home .btn--primary::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: -65%;
+  width: 45%;
+  pointer-events: none;
+  transform: skewX(-18deg);
+  background: linear-gradient(
+    100deg,
+    transparent,
+    rgba(255, 255, 255, 0.38),
+    transparent
+  );
+}
+@media (hover: hover) and (pointer: fine) {
+  .scope-home .btn--primary:hover::after {
+    animation: btn-shine 760ms var(--ease-out);
+  }
+}
+@keyframes btn-shine {
+  to {
+    left: 125%;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .scope-home .btn--primary:hover::after {
+    animation: none;
   }
 }

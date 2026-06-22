@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
 import {
   UserIcon,
   LockIcon,
@@ -13,6 +13,11 @@ import { login, startOAuth, type OAuthProvider } from '../../api/auth'
 import { ApiError } from '../../api/client'
 
 export default function LoginCard() {
+  const navigate = useNavigate()
+  const location = useLocation()
+  // Куда вернуть после входа: страница, с которой нас сюда отправили, иначе главная.
+  const from = (location.state as { from?: string } | null)?.from ?? '/'
+
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [showPassword, setShowPassword] = useState(false)
@@ -29,8 +34,8 @@ export default function LoginCard() {
     setLoading(true)
     try {
       await login({ username, password })
-      // TODO(backend): после входа редиректим в дашборд — заменить на роутинг.
-      window.location.assign('/dashboard')
+      // Возвращаем пользователя туда, откуда он пришёл (или на главную).
+      navigate(from, { replace: true })
     } catch (err) {
       // ApiError несёт человекочитаемое message; всё прочее — общий текст.
       setError(err instanceof ApiError ? err.message : 'Не удалось войти. Попробуйте ещё раз.')
@@ -50,7 +55,7 @@ export default function LoginCard() {
   }
 
   return (
-    <section className="card">
+    <section className="card spotlight">
       <h2 className="card__title">Вход в аккаунт</h2>
       <p className="card__subtitle">
         Добро пожаловать обратно! Войдите, чтобы продолжить обучение.

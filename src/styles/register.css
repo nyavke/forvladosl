@@ -798,3 +798,112 @@
   }
 
 }
+
+/* ============================================================
+   Декоративные эффекты (как на главной): aurora, grain, spotlight, shine.
+   Чистый CSS, без новых зависимостей, уважают prefers-reduced-motion.
+   ============================================================ */
+.scope-register .page {
+  isolation: isolate;
+}
+.scope-register .page::before {
+  content: '';
+  position: fixed;
+  inset: -25%;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    radial-gradient(36% 36% at 22% 28%, rgba(123, 47, 245, 0.30), transparent 60%),
+    radial-gradient(32% 32% at 78% 22%, rgba(59, 107, 245, 0.26), transparent 60%),
+    radial-gradient(40% 40% at 68% 78%, rgba(226, 90, 168, 0.20), transparent 62%),
+    radial-gradient(30% 30% at 30% 80%, rgba(40, 200, 220, 0.14), transparent 62%);
+  filter: blur(46px) saturate(120%);
+  animation: aurora-drift 24s var(--ease-in-out) infinite alternate;
+}
+.scope-register .page::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: 3;
+  pointer-events: none;
+  opacity: 0.05;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 140px 140px;
+}
+@keyframes aurora-drift {
+  0% {
+    transform: translate3d(-3%, -2%, 0) scale(1) rotate(0deg);
+  }
+  50% {
+    transform: translate3d(3%, 2%, 0) scale(1.08) rotate(2deg);
+  }
+  100% {
+    transform: translate3d(-2%, 3%, 0) scale(1.05) rotate(-2deg);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .scope-register .page::before {
+    animation: none;
+  }
+}
+
+/* Spotlight-hover для карточки регистрации. */
+.scope-register .spotlight {
+  position: relative;
+}
+.scope-register .spotlight::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 240ms var(--ease-out);
+  background: radial-gradient(
+    260px circle at var(--spot-x, 50%) var(--spot-y, 50%),
+    rgba(167, 107, 255, 0.16),
+    transparent 62%
+  );
+}
+@media (hover: hover) and (pointer: fine) {
+  .scope-register .spotlight:hover::after {
+    opacity: 1;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .scope-register .spotlight::after {
+    display: none;
+  }
+}
+
+/* Shine-sweep по primary-кнопке. */
+.scope-register .btn--primary {
+  position: relative;
+  overflow: hidden;
+}
+.scope-register .btn--primary::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: -65%;
+  width: 45%;
+  pointer-events: none;
+  transform: skewX(-18deg);
+  background: linear-gradient(100deg, transparent, rgba(255, 255, 255, 0.38), transparent);
+}
+@media (hover: hover) and (pointer: fine) {
+  .scope-register .btn--primary:hover::after {
+    animation: btn-shine 760ms var(--ease-out);
+  }
+}
+@keyframes btn-shine {
+  to {
+    left: 125%;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .scope-register .btn--primary:hover::after {
+    animation: none;
+  }
+}

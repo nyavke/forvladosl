@@ -111,7 +111,7 @@ export default function TechnologiesPage() {
             <ul className="tech-grid">
               {items.map((tech, i) => (
                 <li
-                  className={`tech-card tech-card--${tech.accent} tech-card--clickable reveal reveal--scale`}
+                  className={`tech-card tech-card--${tech.accent} tech-card--clickable spotlight reveal reveal--scale`}
                   key={tech.id}
                   style={{ '--reveal-i': i } as CSSProperties}
                   role="button"

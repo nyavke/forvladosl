@@ -83,7 +83,7 @@ export default function RegisterCard() {
   }
 
   return (
-    <section className="card card--register">
+    <section className="card card--register spotlight">
       <h2 className="card__title">Регистрация</h2>
       <p className="card__subtitle">Создайте аккаунт и начните обучение уже сегодня</p>
 

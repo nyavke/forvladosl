@@ -9,6 +9,7 @@ import {
   ArrowRightIcon,
 } from './icons'
 import { useReveal } from '../hooks/useReveal'
+import Marquee from './Marquee'
 
 /** Статичные данные для превью. */
 const courses = [
@@ -76,7 +77,7 @@ export default function CoursesTech() {
           <ul className="course-list">
             {courses.map((c, i) => (
               <li
-                className={`course-row course-row--${c.accent} reveal`}
+                className={`course-row course-row--${c.accent} spotlight reveal`}
                 key={c.title}
                 style={{ '--reveal-i': i } as CSSProperties}
               >
@@ -108,13 +109,30 @@ export default function CoursesTech() {
           </div>
 
           <div className="tech reveal reveal--scale" id="tech">
-            <ul className="tech__tags">
-              {technologies.map((t) => (
-                <li className="tech__tag" key={t}>
-                  {t}
-                </li>
-              ))}
-            </ul>
+            {/* Бесконечные бегущие ленты технологий (три дорожки навстречу). */}
+            <div className="tech__marquees">
+              <Marquee duration={36}>
+                {technologies.slice(0, 8).map((t) => (
+                  <span className="tech__tag" key={`a-${t}`}>
+                    {t}
+                  </span>
+                ))}
+              </Marquee>
+              <Marquee duration={46} reverse>
+                {technologies.slice(8, 16).map((t) => (
+                  <span className="tech__tag" key={`b-${t}`}>
+                    {t}
+                  </span>
+                ))}
+              </Marquee>
+              <Marquee duration={40}>
+                {technologies.slice(15).map((t) => (
+                  <span className="tech__tag" key={`c-${t}`}>
+                    {t}
+                  </span>
+                ))}
+              </Marquee>
+            </div>
             <p className="tech__note">
               В нашем каталоге более 30 актуальных технологий. Выбирай
               направление и учись у практиков.
