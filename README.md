@@ -1,111 +1,93 @@
-# CodeCore: главная страница (Home)
+# NewFrontCodeCore
 
-Главная страница платформы CodeCore. React + TypeScript + Vite. Раскладка перенесена с присланного макета, а палитра и компонентная база те же, что у `login-codecore` и `register-codecore`: тёмная неоновая тема, токены, шрифт Inter, иконки Flaticon UIcons, анимации по принципам Emil Kowalski.
 
-Контент собран по платформе `code-core.online` (курсы, технологии, сообщество).
 
-## Превью
+## Getting started
 
-Одностраничный скролл-лендинг в тёмной неоновой теме.
+To make it easy for you to get started with GitLab, here's a list of recommended next steps.
 
-- Шапка (Header): липкая, уплотняется при скролле, навигация (Главная, Курсы, Технологии, Форум, О нас), кнопки «Войти» и «Регистрация», бургер-меню на мобильных.
-- Hero: бейдж, крупный заголовок с градиентным «CodeCore», описание, две кнопки и четыре цифры статистики. Справа окно с кодом и карточка-отзыв поверх.
-- «CodeCore — больше, чем курсы»: слева текст, справа сетка из четырёх преимуществ.
-- «Популярные курсы» + «Изучай современные технологии»: список курсов с логотипом, рейтингом и ценой, рядом облако тегов-технологий.
-- «Сильное сообщество — твой рост»: список плюсов и кнопка на форум, справа визуал-кластер участников.
-- CTA: неоновый баннер «Готов начать свой путь в IT?» с кнопкой.
-- Футер: бренд, соцсети, колонки навигации, поддержки и контактов.
+Already a pro? Just edit this README.md and make it your own. Want to make it easy? [Use the template at the bottom](#editing-this-readme)!
 
-## Стек
+## Add your files
 
-- React 18 + TypeScript
-- Vite 5
-- Чистый CSS (без UI-библиотек)
-- Иконки: шрифтовой набор [Flaticon UIcons](https://www.flaticon.com/ru/icon-fonts-most-downloaded), вариант Bold Rounded и Brands, подключается по CDN в `index.html`
-
-## Запуск
-
-```bash
-npm install
-npm run dev      # дев-сервер (http://localhost:5173)
-npm run build    # продакшн-сборка в dist/
-npm run preview  # предпросмотр сборки
-```
-
-## Структура
+- [ ] [Create](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#create-a-file) or [upload](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#upload-a-file) files
+- [ ] [Add files using the command line](https://docs.gitlab.com/ee/gitlab-basics/add-file.html#add-a-file-using-the-command-line) or push an existing Git repository with the following command:
 
 ```
-src/
-  App.tsx                 порядок секций главной
-  App.css                 все стили (шапка, hero, секции, футер, адаптив)
-  index.css               сброс, CSS-переменные (тёмный неон), smooth-scroll
-  api/
-    client.ts             HTTP-клиент (fetch-обёртка, ApiError, базовый URL)
-    content.ts            статистика, курсы, технологии, заявка + контракт для бэкенда
-  components/
-    Header.tsx            липкая шапка с навигацией и мобильным меню
-    Hero.tsx              первый экран: заголовок, кнопки, статистика
-    HeroVisual.tsx        окно с кодом и карточка-отзыв (замена фото из макета)
-    ValueProps.tsx        «больше, чем курсы»: текст + сетка преимуществ
-    CoursesTech.tsx       популярные курсы + теги технологий
-    Community.tsx         блок сообщества с визуалом-кластером
-    CTA.tsx               неоновый баннер с призывом
-    Footer.tsx            подвал
-    Bits.tsx              мелкие переиспользуемые куски (бейдж, заголовок секции)
-    icons.tsx             иконки Flaticon UIcons (Bold Rounded + Brands) как React-компоненты
+cd existing_repo
+git remote add origin https://gitlab.dbystritskiy.ru/javaloc/newfrontcodecore.git
+git branch -M develop
+git push -uf origin develop
 ```
 
-## Интеграция с API
+## Integrate with your tools
 
-Слой работы с бэкендом лежит в `src/api/`. Подробные контракты с комментариями находятся прямо в коде (`client.ts`, `content.ts`), это и есть источник правды для бэкенда.
+- [ ] [Set up project integrations](https://gitlab.dbystritskiy.ru/javaloc/newfrontcodecore/-/settings/integrations)
 
-Базовый адрес берётся из `VITE_API_BASE_URL` (см. `.env.example`), по умолчанию `/api`.
+## Collaborate with your team
 
-Эндпоинты, которые ожидает фронтенд:
+- [ ] [Invite team members and collaborators](https://docs.gitlab.com/ee/user/project/members/)
+- [ ] [Create a new merge request](https://docs.gitlab.com/ee/user/project/merge_requests/creating_merge_requests.html)
+- [ ] [Automatically close issues from merge requests](https://docs.gitlab.com/ee/user/project/issues/managing_issues.html#closing-issues-automatically)
+- [ ] [Enable merge request approvals](https://docs.gitlab.com/ee/user/project/merge_requests/approvals/)
+- [ ] [Set auto-merge](https://docs.gitlab.com/ee/user/project/merge_requests/merge_when_pipeline_succeeds.html)
 
-| Метод | Путь | Назначение |
-| --- | --- | --- |
-| `GET` | `/stats` | цифры для hero (технологии, уроки, студенты, рейтинг) |
-| `GET` | `/courses/popular` | список для блока «Популярные курсы» |
-| `GET` | `/technologies` | теги для блока «Изучай технологии» |
-| `POST` | `/lead` | заявка с CTA «Создать аккаунт» |
-| `GET`/`PUT` | `/profile` | данные и редактирование профиля пользователя |
-| `POST` | `/change-password` | смена пароля (`{ oldPassword, newPassword }`) |
+## Test and Deploy
 
-### Авторизация в UI
+Use the built-in continuous integration in GitLab.
 
-- Состояние входа берётся из access-токена Keycloak в `localStorage` (`accessToken`). Хук `useAuth` (`src/hooks/useAuth.ts`) декодирует JWT (ник `preferred_username`, e-mail, роль `admin`) и держит шапку/профиль в синхроне через событие `codecore:auth-change` и нативное `storage`.
-- Шапка для гостя показывает «Войти/Регистрация», для пользователя — чип с ником (ведёт в `/profile`), «Выйти» и «Админ» (если есть роль).
+- [ ] [Get started with GitLab CI/CD](https://docs.gitlab.com/ee/ci/quick_start/index.html)
+- [ ] [Analyze your code for known vulnerabilities with Static Application Security Testing (SAST)](https://docs.gitlab.com/ee/user/application_security/sast/)
+- [ ] [Deploy to Kubernetes, Amazon EC2, or Amazon ECS using Auto Deploy](https://docs.gitlab.com/ee/topics/autodevops/requirements.html)
+- [ ] [Use pull-based deployments for improved Kubernetes management](https://docs.gitlab.com/ee/user/clusters/agent/)
+- [ ] [Set up protected environments](https://docs.gitlab.com/ee/ci/environments/protected_environments.html)
 
-### Профиль (`/profile`)
+***
 
-- Аватар (загрузка картинки → data-URL), ник (отображаемое имя) и «о себе» — редактируемые поля; логин и e-mail берутся из токена.
-- Редактируемые поля пока хранятся локально (`src/api/profile.ts`, ключ `codecore:profile:<username>`); когда появятся `GET/PUT /profile`, тело функций меняется, сигнатуры остаются.
-- Блок «Активные курсы» собирается из подписок пользователя.
-- Смена пароля — отдельная форма, пишет на бэкенд через `changePassword()` (`POST /change-password`, `src/api/auth.ts`) с Bearer-токеном. Валидация (длина ≥ 8, совпадение, отличие от текущего) делается на фронте до запроса; ошибки бэкенда показываются как есть.
+# Editing this README
 
-Соглашения:
+When you're ready to make this README your own, just edit this file and use the handy template below (or feel free to structure it however you want - this is just a starting point!). Thanks to [makeareadme.com](https://www.makeareadme.com/) for this template.
 
-- Тело запросов и ответов в формате JSON. Авторизация через httpOnly-cookie (`credentials: 'include'`).
-- Ошибки отдаются как `{ message, code }` с HTTP 4xx/5xx. Поле `message` (на русском) показывается пользователю как есть.
-- Сейчас статистика, курсы и технологии зашиты статично для превью. На бою списки заменяются ответами `getStats()`, `getPopularCourses()` и `getTechnologies()`: у курса есть поле `icon` (имя глифа UIcons), которое нужно сопоставить с компонентом-иконкой.
+## Suggestions for a good README
 
-## Визуальные эффекты
+Every project is different, so consider which of these sections apply to yours. The sections used in the template are suggestions for most open source projects. Also keep in mind that while a README can be too long and detailed, too long is better than too short. If you think your README is too long, consider utilizing another form of documentation rather than cutting out information.
 
-Заимствованы из современных AI-лендингов, реализованы на чистом CSS/React (без новых зависимостей), все уважают `prefers-reduced-motion`:
+## Name
+Choose a self-explaining name for your project.
 
-- **Aurora-фон** — медленно «дышащий» цветной слой за контентом (`.scope-home .page::before`).
-- **Film grain** — тонкая плёнка SVG-шума поверх (`.scope-home .page::after`).
-- **Spotlight-hover** — блик за курсором внутри карточек с классом `.spotlight` (`SpotlightEffect` — один глобальный делегированный слушатель пишет `--spot-x/--spot-y`).
-- **Marquee** — бесконечные бегущие ленты технологий (`Marquee`, блок «Изучай технологии»).
-- **Shine-sweep** — блик пробегает по `.btn--primary` при наведении.
-- **Count-up** — числа статистики в hero «набегают» при появлении (`StatValue`).
+## Description
+Let people know what your project can do specifically. Provide context and add a link to any reference visitors might be unfamiliar with. A list of Features or a Background subsection can also be added here. If there are alternatives to your project, this is a good place to list differentiating factors.
 
-## Детали реализации
+## Badges
+On some READMEs, you may see small images that convey metadata, such as whether or not all the tests are passing for the project. You can use Shields to add some to your README. Many services also have instructions for adding a badge.
 
-- Палитра и токены переиспользованы из страниц входа и регистрации (`:root` в `index.css`), поэтому облик единый по всему продукту.
-- Навигация по секциям через якоря и `scroll-behavior: smooth` с `scroll-padding-top` под липкую шапку.
-- Фото из макета (разработчик в hero и сообщество) заменены стилизованными блоками: окно редактора кода с карточкой-отзыва и кластер аватаров. Ассетов-фото нет, поэтому заменили на код в нашем стиле.
-- Иконки шрифтовые: общий стиль `.fi` центрирует глиф флексом внутри его бокса. Логотипы курсов используют бренд-глифы UIcons (Java, Python) и подходящие замены (Spring, React).
-- Адаптив: при `≤980px` навигация прячется в бургер, секции складываются в одну колонку, визуал hero уходит наверх; при `≤620px` всё в одну колонку, карточка-отзыв встаёт под окно кода.
-- Анимации по принципам Emil Kowalski: кастомные easing-кривые, каскадное появление hero, press-feedback `scale(0.97)`, ховеры под `@media (hover: hover)`, поддержка `prefers-reduced-motion`.
+## Visuals
+Depending on what you are making, it can be a good idea to include screenshots or even a video (you'll frequently see GIFs rather than actual videos). Tools like ttygif can help, but check out Asciinema for a more sophisticated method.
+
+## Installation
+Within a particular ecosystem, there may be a common way of installing things, such as using Yarn, NuGet, or Homebrew. However, consider the possibility that whoever is reading your README is a novice and would like more guidance. Listing specific steps helps remove ambiguity and gets people to using your project as quickly as possible. If it only runs in a specific context like a particular programming language version or operating system or has dependencies that have to be installed manually, also add a Requirements subsection.
+
+## Usage
+Use examples liberally, and show the expected output if you can. It's helpful to have inline the smallest example of usage that you can demonstrate, while providing links to more sophisticated examples if they are too long to reasonably include in the README.
+
+## Support
+Tell people where they can go to for help. It can be any combination of an issue tracker, a chat room, an email address, etc.
+
+## Roadmap
+If you have ideas for releases in the future, it is a good idea to list them in the README.
+
+## Contributing
+State if you are open to contributions and what your requirements are for accepting them.
+
+For people who want to make changes to your project, it's helpful to have some documentation on how to get started. Perhaps there is a script that they should run or some environment variables that they need to set. Make these steps explicit. These instructions could also be useful to your future self.
+
+You can also document commands to lint the code or run tests. These steps help to ensure high code quality and reduce the likelihood that the changes inadvertently break something. Having instructions for running tests is especially helpful if it requires external setup, such as starting a Selenium server for testing in a browser.
+
+## Authors and acknowledgment
+Show your appreciation to those who have contributed to the project.
+
+## License
+For open source projects, say how it is licensed.
+
+## Project status
+If you have run out of energy or time for your project, put a note at the top of the README saying that development has slowed down or stopped completely. Someone may choose to fork your project or volunteer to step in as a maintainer or owner, allowing your project to keep going. You can also make an explicit request for maintainers.
