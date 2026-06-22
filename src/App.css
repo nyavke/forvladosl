@@ -1331,23 +1331,26 @@
      колоды не просвечивали сквозь переднюю. backdrop-filter не нужен. */
   background: linear-gradient(var(--card), var(--card)), var(--bg-2);
   backdrop-filter: none;
-  /* Колода: каждая следующая карточка чуть выше, мельче и заметно темнее.
-     Задние остаются непрозрачными (filter:brightness, а не opacity) — поэтому
-     читаются как «уходящие вглубь», а не как полупрозрачные призраки. */
-  transform: translate3d(0, calc(var(--pos) * -18px), 0)
-    scale(calc(1 - var(--pos) * 0.05));
-  filter: brightness(calc(1 - var(--pos) * 0.34));
+  /* Колода-веер: каждая следующая карточка уходит вправо-вверх, мельче,
+     с лёгким поворотом, темнее и чуть размыта — объёмная динамичная стопка.
+     Глубину даёт filter (brightness+blur), а не прозрачность, поэтому задние
+     карточки плотные, не просвечивают. */
+  transform: translate3d(calc(var(--pos) * 22px), calc(var(--pos) * -16px), 0)
+    scale(calc(1 - var(--pos) * 0.06)) rotate(calc(var(--pos) * 2deg));
+  transform-origin: 50% 120%;
+  filter: brightness(calc(1 - var(--pos) * 0.32)) blur(calc(var(--pos) * 1px));
   opacity: 1;
-  z-index: calc(10 - var(--pos));
+  z-index: var(--z, 1);
   pointer-events: none;
   box-shadow: 0 30px 70px rgba(20, 8, 70, 0.45);
-  transition: transform 600ms var(--ease-out), filter 600ms var(--ease-out),
-    opacity 600ms var(--ease-out);
-  will-change: transform, filter;
+  /* Пружинистый easing + чуть разная длительность слоёв = живое движение. */
+  transition: transform 620ms var(--ease-carousel),
+    filter 620ms var(--ease-out), opacity 480ms var(--ease-out);
+  will-change: transform, filter, opacity;
 }
 
-/* Скрытые карточки колоды — единственное место, где используем прозрачность. */
-.scope-home .tech-carousel__card[data-hidden='true'] {
+/* Уходящая и дальние карточки прячутся прозрачностью (без перелёта). */
+.scope-home .tech-carousel__card[data-faded='true'] {
   opacity: 0;
 }
 
@@ -1823,6 +1826,26 @@
   animation-delay: 360ms;
 }
 
+/* Вход hero страницы технологий — тот же приём, что и на главной. */
+.scope-home .tech-hero__col > * {
+  animation: enter-up 600ms var(--ease-out) both;
+}
+.scope-home .tech-hero__visual {
+  animation: enter-visual 760ms var(--ease-out) 160ms both;
+}
+.scope-home .tech-hero__col > .badge {
+  animation-delay: 40ms;
+}
+.scope-home .tech-hero__col > .tech-hero__title {
+  animation-delay: 120ms;
+}
+.scope-home .tech-hero__col > .tech-hero__desc {
+  animation-delay: 200ms;
+}
+.scope-home .tech-hero__col > .btn {
+  animation-delay: 280ms;
+}
+
 /* ---------- Reveal-on-scroll (секции ниже сгиба) ----------
    Скрываем только при разрешённом движении: reduced-motion видит контент
    сразу, а если JS не сработал — тоже (data-revealed не появится → останься
@@ -1849,6 +1872,8 @@
 @media (prefers-reduced-motion: reduce) {
   .scope-home .hero__col > *,
   .scope-home .hero__col--visual,
+  .scope-home .tech-hero__col > *,
+  .scope-home .tech-hero__visual,
   .scope-home .hv__window,
   .scope-home .hv__review,
   .scope-home .accent {

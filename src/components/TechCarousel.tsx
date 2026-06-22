@@ -10,7 +10,7 @@ import type { Technology } from '../data/technologies'
  * Анимация и автопрокрутка отключаются при prefers-reduced-motion.
  */
 
-const SLIDE_MS = 3600
+const SLIDE_MS = 3000
 const VISIBLE = 3 // сколько карточек видно в стопке (включая переднюю)
 
 const prefersReduced = () =>
@@ -44,10 +44,28 @@ export default function TechCarousel({ items, onSelect }: Props) {
     >
       <div className="tech-carousel__stage">
         {items.map((tech, i) => {
-          // Позиция карточки относительно передней: 0 — спереди, 1, 2 — позади.
-          const pos = (i - active + total) % total
-          const isFront = pos === 0
-          const hidden = pos >= VISIBLE
+          // Позиция относительно передней по кругу: 0 — спереди, 1, 2 — в стопке.
+          const raw = (i - active + total) % total
+          const isFront = raw === 0
+          // Карточка, только что ушедшая с переда (предыдущая активная), гасится
+          // кроссфейдом НА МЕСТЕ переда — без перелёта через всю колоду.
+          const isLeaving = total > VISIBLE && raw === total - 1
+
+          // pos задаёт геометрию (сдвиг/масштаб/яркость), faded — прозрачность.
+          let pos: number
+          let faded: boolean
+          if (raw < VISIBLE) {
+            pos = raw
+            faded = false
+          } else if (isLeaving) {
+            pos = 0 // геометрия переда — гаснет ровно там, где была
+            faded = true
+          } else {
+            pos = VISIBLE - 1 // дальние припаркованы за стопкой и скрыты
+            faded = true
+          }
+          // Уходящая карточка кратко поверх стопки, остальные — по глубине.
+          const z = isLeaving ? total + 5 : total - raw
 
           return (
             <div
@@ -55,7 +73,7 @@ export default function TechCarousel({ items, onSelect }: Props) {
               className={`tech-card tech-card--${tech.accent} tech-carousel__card ${
                 isFront ? 'is-front' : ''
               }`}
-              style={{ '--pos': pos } as CSSProperties}
+              style={{ '--pos': pos, '--z': z } as CSSProperties}
               aria-hidden={!isFront}
               role={isFront ? 'button' : undefined}
               tabIndex={isFront ? 0 : -1}
@@ -70,7 +88,7 @@ export default function TechCarousel({ items, onSelect }: Props) {
                     }
                   : undefined
               }
-              {...(hidden ? { 'data-hidden': 'true' } : {})}
+              data-faded={faded ? 'true' : 'false'}
             >
               <div className="tech-card__top">
                 <span className="tech-card__icon">
