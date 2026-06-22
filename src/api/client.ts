@@ -1,25 +1,27 @@
 /**
- * HTTP-клиент для общения с backend-API CodeCore.
+ * HTTP-клиент для общения с backend-API CodeCore (KeycloakService).
  *
- * ── Для backend-разработчиков ────────────────────────────────────────────────
+ * ── Контракт реального бэкенда ───────────────────────────────────────────────
  * Базовый адрес берётся из переменной окружения VITE_API_BASE_URL
- * (см. .env.example). Если она не задана — используется '/api' (удобно, когда
- * фронт и бэк живут за одним доменом / проксируются nginx-ом).
+ * (см. .env.example). Если она не задана — используется боевой домен
+ * https://code-core.online/api/v2.
  *
- * Соглашения, которые ожидает фронтенд:
- *   • Тело запроса/ответа — JSON (Content-Type: application/json).
- *   • Успех: HTTP 2xx + JSON-тело.
- *   • Ошибка: HTTP 4xx/5xx + JSON вида { "message": "текст для пользователя",
- *     "code": "MACHINE_CODE" }. Поле message показывается пользователю как есть,
- *     поэтому пишите его на русском и человекочитаемо.
- *   • Авторизация — httpOnly-cookie (credentials: 'include'). Если перейдёте на
- *     Bearer-токен в заголовке — добавьте его в getAuthHeaders() ниже.
+ *   • Тело запроса — JSON (Content-Type: application/json).
+ *   • Успех логина: HTTP 200, тело — access-token Keycloak в виде строки.
+ *   • Успех регистрации: HTTP 201, тело — текстовое сообщение.
+ *   • Ошибка: HTTP 4xx/5xx, тело — текстовое сообщение (на русском),
+ *     которое показывается пользователю как есть.
+ *   • Авторизация — Bearer-токен в заголовке Authorization. Токен кладётся
+ *     в localStorage после логина (см. auth.ts) и подставляется автоматически.
  * ─────────────────────────────────────────────────────────────────────────────
  */
 
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL ?? '/api'
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL ?? 'https://code-core.online/api/v2'
 
-/** Унифицированная ошибка API: несёт человекочитаемое message и машинный code. */
+/** Ключ, под которым в localStorage хранится access-token Keycloak. */
+export const TOKEN_STORAGE_KEY = 'accessToken'
+
+/** Унифицированная ошибка API: несёт человекочитаемое message и HTTP-статус. */
 export class ApiError extends Error {
   readonly status: number
   readonly code?: string
@@ -32,18 +34,18 @@ export class ApiError extends Error {
   }
 }
 
-/** Заголовки авторизации. Сейчас полагаемся на httpOnly-cookie, заголовки пустые. */
+/** Заголовки авторизации: Bearer-токен, если он есть в localStorage. */
 function getAuthHeaders(): Record<string, string> {
-  // Пример для Bearer-токена:
-  // const token = localStorage.getItem('accessToken')
-  // return token ? { Authorization: `Bearer ${token}` } : {}
-  return {}
+  const token = localStorage.getItem(TOKEN_STORAGE_KEY)
+  return token ? { Authorization: `Bearer ${token}` } : {}
 }
 
 /**
  * Низкоуровневый запрос к API.
- * @param path   путь относительно базового URL, например '/auth/login'
- * @param init   стандартные опции fetch (method, body уже сериализуем за вас)
+ * Возвращает уже распарсенное тело: JSON-объект, если ответ — JSON,
+ * иначе строку (бэкенд часто отдаёт plain-text: токен или сообщение).
+ * @param path путь относительно базового URL, например '/login'
+ * @param init стандартные опции fetch (тело сериализуем за вас)
  */
 export async function apiRequest<TResponse>(
   path: string,
@@ -56,11 +58,9 @@ export async function apiRequest<TResponse>(
     response = await fetch(`${API_BASE_URL}${path}`, {
       method,
       signal,
-      // credentials: 'include' — браузер пришлёт/примет httpOnly-cookie сессии.
-      credentials: 'include',
       headers: {
         'Content-Type': 'application/json',
-        Accept: 'application/json',
+        Accept: 'application/json, text/plain',
         ...getAuthHeaders(),
       },
       body: body !== undefined ? JSON.stringify(body) : undefined,
@@ -75,13 +75,27 @@ export async function apiRequest<TResponse>(
     return undefined as TResponse
   }
 
-  const data = await response.json().catch(() => null)
+  const text = await response.text()
+  // Бэкенд может отдать как JSON, так и plain-text — пробуем разобрать JSON.
+  let data: unknown = text
+  try {
+    data = text ? JSON.parse(text) : null
+  } catch {
+    data = text
+  }
 
   if (!response.ok) {
     const message =
-      (data && typeof data.message === 'string' && data.message) ||
-      'Что-то пошло не так. Попробуйте ещё раз.'
-    throw new ApiError(message, response.status, data?.code)
+      (data && typeof data === 'object' && 'message' in data && typeof data.message === 'string'
+        ? data.message
+        : typeof data === 'string' && data
+          ? data
+          : '') || 'Что-то пошло не так. Попробуйте ещё раз.'
+    const code =
+      data && typeof data === 'object' && 'code' in data && typeof data.code === 'string'
+        ? data.code
+        : undefined
+    throw new ApiError(message, response.status, code)
   }
 
   return data as TResponse

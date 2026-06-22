@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom'
 import {
   VkIcon,
   TelegramIcon,
@@ -7,14 +8,28 @@ import {
 } from './icons'
 import logo from '../assets/logo.png'
 
+// to — внутренний маршрут/якорь главной (рендерится через <Link>),
+// href — внешняя ссылка-заглушка (рендерится через <a>).
 const columns = [
   {
     title: 'Навигация',
-    links: ['Главная', 'Курсы', 'Технологии', 'Форум', 'О нас'],
+    links: [
+      { label: 'Главная', to: '/' },
+      { label: 'Курсы', to: '/#courses' },
+      { label: 'Технологии', to: '/#tech' },
+      { label: 'Форум', to: '/#community' },
+      { label: 'О нас', to: '/#about' },
+    ],
   },
   {
     title: 'Поддержка',
-    links: ['FAQ', 'Помощь', 'Контакты', 'Правила', 'Политика конфиденциальности'],
+    links: [
+      { label: 'FAQ', href: '#' },
+      { label: 'Помощь', href: '#' },
+      { label: 'Контакты', href: '#' },
+      { label: 'Правила', href: '#' },
+      { label: 'Политика конфиденциальности', href: '#' },
+    ],
   },
 ]
 
@@ -36,9 +51,9 @@ export default function Footer() {
     <footer className="footer">
       <div className="footer__inner">
         <div className="footer__brand-col">
-          <a className="brand brand--invert" href="#top">
+          <Link className="brand brand--invert" to="/">
             <img className="brand__img" src={logo} alt="CodeCore" />
-          </a>
+          </Link>
           <p className="footer__tagline">
             Практическая платформа для изучения программирования и развития в IT.
           </p>
@@ -54,11 +69,17 @@ export default function Footer() {
         {columns.map((col) => (
           <nav className="footer__col" key={col.title} aria-label={col.title}>
             <span className="footer__col-title">{col.title}</span>
-            {col.links.map((link) => (
-              <a className="footer__link" key={link} href="#">
-                {link}
-              </a>
-            ))}
+            {col.links.map((link) =>
+              'to' in link ? (
+                <Link className="footer__link" key={link.label} to={link.to}>
+                  {link.label}
+                </Link>
+              ) : (
+                <a className="footer__link" key={link.label} href={link.href}>
+                  {link.label}
+                </a>
+              ),
+            )}
           </nav>
         ))}
 

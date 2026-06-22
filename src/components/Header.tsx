@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { Link } from 'react-router-dom'
 import { MenuIcon, CloseIcon } from './icons'
 import logo from '../assets/logo.png'
 
@@ -42,12 +43,12 @@ export default function Header() {
         </nav>
 
         <div className="header__actions">
-          <a className="btn btn--outline btn--sm" href="#login">
+          <Link className="btn btn--outline btn--sm" to="/login">
             Войти
-          </a>
-          <a className="btn btn--primary btn--sm" href="#register">
+          </Link>
+          <Link className="btn btn--primary btn--sm" to="/register">
             Регистрация
-          </a>
+          </Link>
         </div>
 
         <button
@@ -72,12 +73,12 @@ export default function Header() {
           </a>
         ))}
         <div className="header__mobile-actions">
-          <a className="btn btn--outline" href="#login" onClick={() => setMenuOpen(false)}>
+          <Link className="btn btn--outline" to="/login" onClick={() => setMenuOpen(false)}>
             Войти
-          </a>
-          <a className="btn btn--primary" href="#register" onClick={() => setMenuOpen(false)}>
+          </Link>
+          <Link className="btn btn--primary" to="/register" onClick={() => setMenuOpen(false)}>
             Регистрация
-          </a>
+          </Link>
         </div>
       </div>
     </header>

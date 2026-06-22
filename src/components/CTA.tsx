@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom'
 import { RocketIcon } from './icons'
 import { useReveal } from '../hooks/useReveal'
 
@@ -16,9 +17,9 @@ export default function CTA() {
             Создай аккаунт и получи доступ к тысячам материалов уже сегодня.
           </p>
         </div>
-        <a className="btn btn--primary btn--lg cta__btn" href="#register">
+        <Link className="btn btn--primary btn--lg cta__btn" to="/register">
           Создать аккаунт
-        </a>
+        </Link>
       </div>
     </section>
   )

@@ -3,7 +3,7 @@
    (тёмный неон, как login-codecore / register-codecore).
    ============================================================ */
 
-.page {
+.scope-home .page {
   position: relative;
   min-height: 100vh;
   /* Шапка фиксированная (position: fixed) — освобождаем под неё место сверху,
@@ -19,21 +19,21 @@
 }
 
 /* Иконки UIcons: центрируем глиф внутри его бокса. */
-.fi {
+.scope-home .fi {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   line-height: 1;
 }
-.fi::before {
+.scope-home .fi::before {
   display: block;
   line-height: 1;
 }
 
 /* Общий контейнер */
-.header__inner,
-.hero,
-.section {
+.scope-home .header__inner,
+.scope-home .hero,
+.scope-home .section {
   width: 100%;
   max-width: var(--container);
   margin-inline: auto;
@@ -41,14 +41,14 @@
 }
 
 /* ---------- Brand ---------- */
-.brand {
+.scope-home .brand {
   position: relative;
   display: inline-flex;
   align-items: center;
   gap: 12px;
 }
 
-.brand__img {
+.scope-home .brand__img {
   height: 40px;
   width: auto;
   display: block;
@@ -56,7 +56,7 @@
 
 /* Бегущий блик-«перелив» по логотипу. Маской ограничиваем форму логотипа,
    чтобы блик скользил только по нему, а не по прозрачному фону. */
-.brand::after {
+.scope-home .brand::after {
   content: '';
   position: absolute;
   inset: 0;
@@ -85,13 +85,13 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .brand::after {
+  .scope-home .brand::after {
     animation: none;
     opacity: 0;
   }
 }
 
-.brand__logo {
+.scope-home .brand__logo {
   width: 42px;
   height: 42px;
   border-radius: 12px;
@@ -101,19 +101,19 @@
   box-shadow: 0 8px 22px rgba(123, 47, 245, 0.45);
 }
 
-.brand__logo-icon {
+.scope-home .brand__logo-icon {
   font-size: 22px;
   color: #fff;
 }
 
-.brand__name {
+.scope-home .brand__name {
   font-size: 20px;
   font-weight: 800;
   letter-spacing: -0.3px;
 }
 
 /* ---------- Buttons ---------- */
-.btn {
+.scope-home .btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -129,57 +129,57 @@
     opacity 200ms var(--ease-out);
 }
 
-.btn:active {
+.scope-home .btn:active {
   transform: scale(0.97);
 }
 
-.btn:disabled {
+.scope-home .btn:disabled {
   opacity: 0.6;
   cursor: not-allowed;
 }
 
-.btn--primary {
+.scope-home .btn--primary {
   color: #fff;
   background: var(--grad);
   box-shadow: 0 12px 28px rgba(99, 60, 245, 0.42);
 }
 
 @media (hover: hover) and (pointer: fine) {
-  .btn--primary:hover {
+  .scope-home .btn--primary:hover {
     transform: translateY(-1px);
     box-shadow: 0 16px 40px rgba(99, 60, 245, 0.58);
   }
 }
 
-.btn--outline {
+.scope-home .btn--outline {
   color: #e7e8f2;
   background: var(--field-bg);
   border: 1px solid var(--field-border);
 }
 
 @media (hover: hover) and (pointer: fine) {
-  .btn--outline:hover {
+  .scope-home .btn--outline:hover {
     background: rgba(30, 30, 56, 0.85);
     border-color: rgba(139, 92, 255, 0.45);
   }
 }
 
-.btn--sm {
+.scope-home .btn--sm {
   padding: 9px 16px;
   font-size: 14px;
 }
 
-.btn--lg {
+.scope-home .btn--lg {
   padding: 15px 26px;
   font-size: 15.5px;
 }
 
-.btn__icon {
+.scope-home .btn__icon {
   font-size: 16px;
 }
 
 /* ---------- Header ---------- */
-.header {
+.scope-home .header {
   position: fixed;
   top: 0;
   left: 0;
@@ -190,50 +190,50 @@
     backdrop-filter 240ms var(--ease-out);
 }
 
-.header--scrolled {
+.scope-home .header--scrolled {
   background: rgba(8, 8, 18, 0.72);
   backdrop-filter: blur(16px);
   border-bottom-color: rgba(120, 110, 220, 0.16);
 }
 
-.header__inner {
+.scope-home .header__inner {
   display: flex;
   align-items: center;
   gap: 22px;
   height: 72px;
 }
 
-.header__nav {
+.scope-home .header__nav {
   display: flex;
   align-items: center;
   gap: 26px;
   margin: 0 auto;
 }
 
-.header__link {
+.scope-home .header__link {
   font-size: 14.5px;
   color: var(--muted);
   transition: color 160ms var(--ease-out);
 }
 
-.header__link.is-active {
+.scope-home .header__link.is-active {
   color: var(--text);
   font-weight: 600;
 }
 
 @media (hover: hover) and (pointer: fine) {
-  .header__link:hover {
+  .scope-home .header__link:hover {
     color: var(--text);
   }
 }
 
-.header__actions {
+.scope-home .header__actions {
   display: flex;
   align-items: center;
   gap: 12px;
 }
 
-.header__burger {
+.scope-home .header__burger {
   display: none;
   margin-left: auto;
   width: 42px;
@@ -247,7 +247,7 @@
   justify-content: center;
 }
 
-.header__mobile {
+.scope-home .header__mobile {
   display: none;
   flex-direction: column;
   gap: 4px;
@@ -259,20 +259,20 @@
   transition: max-height 320ms var(--ease-drawer), padding 320ms var(--ease-drawer);
 }
 
-.header__mobile.is-open {
+.scope-home .header__mobile.is-open {
   max-height: 420px;
   padding-block: 12px 22px;
   border-bottom: 1px solid rgba(120, 110, 220, 0.16);
 }
 
-.header__mobile-link {
+.scope-home .header__mobile-link {
   padding: 12px 0;
   font-size: 16px;
   color: var(--text);
   border-bottom: 1px solid rgba(120, 120, 170, 0.1);
 }
 
-.header__mobile-actions {
+.scope-home .header__mobile-actions {
   display: flex;
   flex-direction: column;
   gap: 10px;
@@ -280,7 +280,7 @@
 }
 
 /* ---------- Hero ---------- */
-.hero {
+.scope-home .hero {
   position: relative;
   z-index: 1;
   display: grid;
@@ -291,11 +291,11 @@
   padding-bottom: clamp(40px, 7vh, 84px);
 }
 
-.hero__col {
+.scope-home .hero__col {
   min-width: 0;
 }
 
-.badge {
+.scope-home .badge {
   display: inline-flex;
   align-items: center;
   gap: 9px;
@@ -309,12 +309,12 @@
   margin-bottom: 24px;
 }
 
-.badge__icon {
+.scope-home .badge__icon {
   font-size: 13px;
   color: #b388ff;
 }
 
-.accent {
+.scope-home .accent {
   background: linear-gradient(90deg, #a76bff, #6f8bff, #e25aa8, #a76bff);
   background-size: 200% auto;
   -webkit-background-clip: text;
@@ -329,7 +329,7 @@
   }
 }
 
-.hero__title {
+.scope-home .hero__title {
   font-size: clamp(34px, 4.4vw, 56px);
   line-height: 1.08;
   font-weight: 800;
@@ -337,7 +337,7 @@
   margin-bottom: 22px;
 }
 
-.hero__desc {
+.scope-home .hero__desc {
   max-width: 500px;
   font-size: clamp(15px, 1.15vw, 17px);
   line-height: 1.6;
@@ -345,26 +345,26 @@
   margin-bottom: 30px;
 }
 
-.hero__actions {
+.scope-home .hero__actions {
   display: flex;
   flex-wrap: wrap;
   gap: 14px;
   margin-bottom: 40px;
 }
 
-.hero__stats {
+.scope-home .hero__stats {
   display: flex;
   flex-wrap: wrap;
   gap: 14px clamp(14px, 1.8vw, 24px);
 }
 
-.hero__stat {
+.scope-home .hero__stat {
   display: flex;
   align-items: center;
   gap: 10px;
 }
 
-.hero__stat-icon {
+.scope-home .hero__stat-icon {
   width: 34px;
   height: 34px;
   border-radius: 10px;
@@ -376,35 +376,35 @@
   color: #c0a3ff;
 }
 
-.hero__stat-value {
+.scope-home .hero__stat-value {
   font-size: clamp(18px, 1.7vw, 22px);
   font-weight: 800;
   letter-spacing: -0.4px;
 }
 
 /* tabular-nums — чтобы ширина не дёргалась, пока число набегает */
-.stat-count {
+.scope-home .stat-count {
   font-variant-numeric: tabular-nums;
 }
 
-.hero__stat-label {
+.scope-home .hero__stat-label {
   font-size: 12.5px;
   color: var(--muted-2);
 }
 
 /* ---------- Hero visual (окно кода + отзыв) ---------- */
-.hero__col--visual {
+.scope-home .hero__col--visual {
   display: flex;
   justify-content: center;
 }
 
-.hv {
+.scope-home .hv {
   position: relative;
   width: 100%;
   max-width: 520px;
 }
 
-.hv__window {
+.scope-home .hv__window {
   border-radius: 18px;
   overflow: hidden;
   background: linear-gradient(180deg, rgba(22, 20, 48, 0.92), rgba(12, 11, 30, 0.92));
@@ -435,7 +435,7 @@
   }
 }
 
-.hv__bar {
+.scope-home .hv__bar {
   display: flex;
   align-items: center;
   gap: 8px;
@@ -444,28 +444,28 @@
   border-bottom: 1px solid rgba(255, 255, 255, 0.06);
 }
 
-.hv__dot {
+.scope-home .hv__dot {
   width: 11px;
   height: 11px;
   border-radius: 50%;
 }
-.hv__dot--r {
+.scope-home .hv__dot--r {
   background: #ff5f57;
 }
-.hv__dot--y {
+.scope-home .hv__dot--y {
   background: #febc2e;
 }
-.hv__dot--g {
+.scope-home .hv__dot--g {
   background: #28c840;
 }
 
-.hv__file {
+.scope-home .hv__file {
   margin-left: 8px;
   font-size: 12.5px;
   color: var(--muted-2);
 }
 
-.hv__code {
+.scope-home .hv__code {
   padding: 22px 24px 30px;
   font-family: 'JetBrains Mono', 'Fira Code', ui-monospace, SFMono-Regular, Menlo,
     Consolas, monospace;
@@ -473,7 +473,7 @@
   line-height: 1.9;
 }
 
-.hv__line {
+.scope-home .hv__line {
   white-space: pre;
   /* Держим высоту всех 7 строк с самого начала, чтобы окно не «прыгало»,
      пока код печатается посимвольно. */
@@ -481,7 +481,7 @@
 }
 
 /* Мигающая каретка редактора */
-.hv__caret {
+.scope-home .hv__caret {
   display: inline-block;
   width: 2px;
   height: 1.15em;
@@ -504,24 +504,24 @@
   }
 }
 
-.hv__t--kw {
+.scope-home .hv__t--kw {
   color: #c792ff;
 }
-.hv__t--fn {
+.scope-home .hv__t--fn {
   color: #6f9bff;
 }
-.hv__t--str {
+.scope-home .hv__t--str {
   color: #6ee7a8;
 }
-.hv__t--op,
-.hv__t--br {
+.scope-home .hv__t--op,
+.scope-home .hv__t--br {
   color: #8b8ca6;
 }
-.hv__t--ind {
+.scope-home .hv__t--ind {
   color: transparent;
 }
 
-.hv__review {
+.scope-home .hv__review {
   position: absolute;
   right: -14px;
   bottom: -28px;
@@ -536,7 +536,7 @@
 }
 
 /* Слайды-отзывы наложены друг на друга и плавно перетекают (кроссфейд). */
-.hv__slide {
+.scope-home .hv__slide {
   position: absolute;
   inset: 0;
   display: flex;
@@ -548,12 +548,12 @@
   pointer-events: none;
 }
 
-.hv__slide.is-active {
+.scope-home .hv__slide.is-active {
   opacity: 1;
   transform: none;
 }
 
-.hv__dots {
+.scope-home .hv__dots {
   position: absolute;
   bottom: 9px;
   right: 16px;
@@ -561,7 +561,7 @@
   gap: 5px;
 }
 
-.hv__dot-i {
+.scope-home .hv__dot-i {
   width: 6px;
   height: 6px;
   border-radius: 50%;
@@ -569,33 +569,33 @@
   transition: background 300ms var(--ease-out), width 300ms var(--ease-out);
 }
 
-.hv__dot-i.is-active {
+.scope-home .hv__dot-i.is-active {
   width: 16px;
   border-radius: 3px;
   background: var(--grad);
 }
 
-.hv__review-quote {
+.scope-home .hv__review-quote {
   font-size: 18px;
   color: rgba(139, 92, 255, 0.6);
   margin-bottom: 8px;
 }
 
-.hv__review-text {
+.scope-home .hv__review-text {
   font-size: 13px;
   line-height: 1.5;
   color: #d6d7e6;
   margin-bottom: 14px;
 }
 
-.hv__review-author {
+.scope-home .hv__review-author {
   display: flex;
   align-items: center;
   gap: 10px;
   margin-top: auto; /* автор всегда у нижнего края слайда */
 }
 
-.hv__review-avatar {
+.scope-home .hv__review-avatar {
   width: 36px;
   height: 36px;
   border-radius: 50%;
@@ -607,42 +607,42 @@
   background: var(--grad);
 }
 
-.hv__review-name {
+.scope-home .hv__review-name {
   display: block;
   font-size: 13.5px;
   font-weight: 700;
 }
 
-.hv__review-role {
+.scope-home .hv__review-role {
   display: block;
   font-size: 12px;
   color: var(--muted-2);
 }
 
 /* ---------- Section primitives ---------- */
-.section {
+.scope-home .section {
   position: relative;
   z-index: 1;
   padding-top: clamp(48px, 8vh, 96px);
 }
 
-.section__head {
+.scope-home .section__head {
   max-width: 640px;
   margin: 0 auto clamp(32px, 5vh, 52px);
 }
 
-.section__head--center {
+.scope-home .section__head--center {
   text-align: center;
 }
 
-.section__title {
+.scope-home .section__title {
   font-size: clamp(26px, 3.1vw, 38px);
   line-height: 1.15;
   font-weight: 800;
   letter-spacing: -0.6px;
 }
 
-.section__subtitle {
+.scope-home .section__subtitle {
   margin-top: 12px;
   font-size: clamp(14px, 1.1vw, 16px);
   line-height: 1.6;
@@ -650,13 +650,13 @@
 }
 
 /* ---------- Форматы обучения ---------- */
-.formats__grid {
+.scope-home .formats__grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: clamp(20px, 2.4vw, 30px);
 }
 
-.format-card {
+.scope-home .format-card {
   position: relative;
   display: flex;
   flex-direction: column;
@@ -668,7 +668,7 @@
   backdrop-filter: blur(12px);
 }
 
-.format-card__badge {
+.scope-home .format-card__badge {
   position: absolute;
   top: -34px;
   left: 50%;
@@ -684,7 +684,7 @@
   box-shadow: 0 12px 28px rgba(123, 47, 245, 0.4);
 }
 
-.format-card__title {
+.scope-home .format-card__title {
   text-align: center;
   font-size: clamp(19px, 1.7vw, 23px);
   font-weight: 700;
@@ -692,20 +692,20 @@
   margin-bottom: clamp(20px, 2.4vw, 30px);
 }
 
-.format-card__list {
+.scope-home .format-card__list {
   list-style: none;
   display: grid;
   gap: 18px;
   margin-bottom: clamp(24px, 3vw, 34px);
 }
 
-.format-card__item {
+.scope-home .format-card__item {
   display: flex;
   gap: 14px;
   align-items: flex-start;
 }
 
-.format-card__ic {
+.scope-home .format-card__ic {
   flex-shrink: 0;
   width: 38px;
   height: 38px;
@@ -718,14 +718,14 @@
   color: #c0a3ff;
 }
 
-.format-card__text {
+.scope-home .format-card__text {
   font-size: 14.5px;
   line-height: 1.55;
   color: var(--muted);
   padding-top: 7px;
 }
 
-.format-card__btn {
+.scope-home .format-card__btn {
   /* прижимаем кнопку к низу карточки — у обеих карточек выровнено */
   margin-top: auto;
   justify-content: center;
@@ -733,7 +733,7 @@
 }
 
 /* ---------- Value props (больше, чем курсы) ---------- */
-.value__inner {
+.scope-home .value__inner {
   display: grid;
   grid-template-columns: 0.85fr 1.15fr;
   gap: clamp(28px, 4vw, 56px);
@@ -744,7 +744,7 @@
   backdrop-filter: blur(12px);
 }
 
-.value__title {
+.scope-home .value__title {
   font-size: clamp(24px, 2.8vw, 34px);
   font-weight: 800;
   line-height: 1.15;
@@ -752,25 +752,25 @@
   margin-bottom: 18px;
 }
 
-.value__text {
+.scope-home .value__text {
   font-size: 15px;
   line-height: 1.65;
   color: var(--muted);
 }
 
-.value__grid {
+.scope-home .value__grid {
   list-style: none;
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 26px 30px;
 }
 
-.value-item {
+.scope-home .value-item {
   display: flex;
   gap: 15px;
 }
 
-.value-item__icon {
+.scope-home .value-item__icon {
   flex-shrink: 0;
   width: 46px;
   height: 46px;
@@ -783,20 +783,20 @@
   color: #c0a3ff;
 }
 
-.value-item__title {
+.scope-home .value-item__title {
   font-size: 16.5px;
   font-weight: 700;
   margin-bottom: 6px;
 }
 
-.value-item__text {
+.scope-home .value-item__text {
   font-size: 13.5px;
   line-height: 1.55;
   color: var(--muted);
 }
 
 /* ---------- Courses + Tech ---------- */
-.ct__inner {
+.scope-home .ct__inner {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: clamp(28px, 4vw, 52px);
@@ -804,12 +804,12 @@
 
 /* Колонка — флекс, чтобы её контент (список / блок технологий) тянулся
    на всю высоту строки грида и низ обеих колонок был на одном уровне. */
-.ct__col {
+.scope-home .ct__col {
   display: flex;
   flex-direction: column;
 }
 
-.ct__head {
+.scope-home .ct__head {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -817,13 +817,13 @@
   margin-bottom: 22px;
 }
 
-.ct__title {
+.scope-home .ct__title {
   font-size: clamp(20px, 2vw, 26px);
   font-weight: 800;
   letter-spacing: -0.4px;
 }
 
-.ct__more {
+.scope-home .ct__more {
   display: inline-flex;
   align-items: center;
   gap: 5px;
@@ -833,28 +833,28 @@
   transition: color 180ms var(--ease-out);
 }
 
-.ct__more-icon {
+.scope-home .ct__more-icon {
   font-size: 14px;
   transition: transform 180ms var(--ease-out);
 }
 
 @media (hover: hover) and (pointer: fine) {
-  .ct__more:hover {
+  .scope-home .ct__more:hover {
     color: #fff;
   }
-  .ct__more:hover .ct__more-icon {
+  .scope-home .ct__more:hover .ct__more-icon {
     transform: translateX(3px);
   }
 }
 
-.course-list {
+.scope-home .course-list {
   list-style: none;
   display: flex;
   flex-direction: column;
   gap: 14px;
 }
 
-.course-row {
+.scope-home .course-row {
   display: grid;
   grid-template-columns: auto 1fr auto auto;
   align-items: center;
@@ -868,13 +868,13 @@
 }
 
 @media (hover: hover) and (pointer: fine) {
-  .course-row:hover {
+  .scope-home .course-row:hover {
     transform: translateY(-2px);
     border-color: rgba(139, 92, 255, 0.4);
   }
 }
 
-.course-row__icon {
+.scope-home .course-row__icon {
   width: 44px;
   height: 44px;
   border-radius: 12px;
@@ -886,42 +886,42 @@
 }
 
 @media (hover: hover) and (pointer: fine) {
-  .course-row:hover .course-row__icon {
+  .scope-home .course-row:hover .course-row__icon {
     transform: scale(1.08);
   }
 }
 
-.course-row--java .course-row__icon {
+.scope-home .course-row--java .course-row__icon {
   background: linear-gradient(135deg, #f0512c, #d63e1a);
 }
-.course-row--spring .course-row__icon {
+.scope-home .course-row--spring .course-row__icon {
   background: linear-gradient(135deg, #6db33f, #4e8a2a);
 }
-.course-row--react .course-row__icon {
+.scope-home .course-row--react .course-row__icon {
   background: linear-gradient(135deg, #3bb7d6, #2a90c8);
 }
-.course-row--python .course-row__icon {
+.scope-home .course-row--python .course-row__icon {
   background: linear-gradient(135deg, #4d8fd6, #f7c948);
 }
 
-.course-row__body {
+.scope-home .course-row__body {
   display: flex;
   flex-direction: column;
   gap: 3px;
   min-width: 0;
 }
 
-.course-row__title {
+.scope-home .course-row__title {
   font-size: 15px;
   font-weight: 700;
 }
 
-.course-row__meta {
+.scope-home .course-row__meta {
   font-size: 12.5px;
   color: var(--muted-2);
 }
 
-.course-row__rating {
+.scope-home .course-row__rating {
   display: inline-flex;
   align-items: center;
   gap: 5px;
@@ -930,18 +930,18 @@
   white-space: nowrap;
 }
 
-.course-row__star {
+.scope-home .course-row__star {
   font-size: 13px;
 }
 
-.course-row__price {
+.scope-home .course-row__price {
   font-size: 15px;
   font-weight: 800;
   white-space: nowrap;
 }
 
 /* tech */
-.tech {
+.scope-home .tech {
   flex: 1;
   display: flex;
   flex-direction: column;
@@ -952,7 +952,7 @@
   backdrop-filter: blur(10px);
 }
 
-.tech__tags {
+.scope-home .tech__tags {
   list-style: none;
   display: flex;
   flex-wrap: wrap;
@@ -960,7 +960,7 @@
   margin-bottom: 18px;
 }
 
-.tech__tag {
+.scope-home .tech__tag {
   padding: 8px 14px;
   border-radius: 999px;
   font-size: 13px;
@@ -972,7 +972,7 @@
 }
 
 @media (hover: hover) and (pointer: fine) {
-  .tech__tag:hover {
+  .scope-home .tech__tag:hover {
     color: #fff;
     border-color: rgba(139, 92, 255, 0.5);
     background: rgba(123, 47, 245, 0.15);
@@ -980,7 +980,7 @@
   }
 }
 
-.tech__note {
+.scope-home .tech__note {
   margin-top: auto;
   font-size: 13.5px;
   line-height: 1.55;
@@ -988,14 +988,14 @@
 }
 
 /* ---------- Community ---------- */
-.community__inner {
+.scope-home .community__inner {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: clamp(32px, 5vw, 64px);
   align-items: center;
 }
 
-.community__title {
+.scope-home .community__title {
   font-size: clamp(26px, 3vw, 38px);
   font-weight: 800;
   line-height: 1.12;
@@ -1003,14 +1003,14 @@
   margin-bottom: 16px;
 }
 
-.community__desc {
+.scope-home .community__desc {
   font-size: 15.5px;
   line-height: 1.6;
   color: var(--muted);
   margin-bottom: 26px;
 }
 
-.community__list {
+.scope-home .community__list {
   list-style: none;
   display: flex;
   flex-direction: column;
@@ -1018,7 +1018,7 @@
   margin-bottom: 30px;
 }
 
-.community__point {
+.scope-home .community__point {
   display: flex;
   align-items: center;
   gap: 13px;
@@ -1026,7 +1026,7 @@
   color: #d6d7e6;
 }
 
-.community__check {
+.scope-home .community__check {
   flex-shrink: 0;
   width: 26px;
   height: 26px;
@@ -1040,7 +1040,7 @@
 }
 
 /* community visual (плейсхолдер вместо фото) */
-.community__visual {
+.scope-home .community__visual {
   position: relative;
   aspect-ratio: 1 / 0.82;
   border-radius: 22px;
@@ -1049,20 +1049,20 @@
   border: 1px solid var(--card-border);
 }
 
-.cv__glow {
+.scope-home .cv__glow {
   position: absolute;
   inset: 0;
   background: radial-gradient(360px 240px at 50% 40%, rgba(123, 47, 245, 0.35), transparent 70%);
 }
 
-.cv__avatars {
+.scope-home .cv__avatars {
   position: absolute;
   inset: 0;
   display: grid;
   place-items: center;
 }
 
-.cv__avatar {
+.scope-home .cv__avatar {
   position: absolute;
   display: grid;
   place-items: center;
@@ -1074,16 +1074,16 @@
   box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4);
 }
 
-.cv__avatar--0 { width: 76px; height: 76px; font-size: 28px; left: 38%; top: 30%; }
-.cv__avatar--1 { width: 52px; height: 52px; font-size: 20px; left: 18%; top: 18%; background: linear-gradient(135deg, #3bb7d6, #2a90c8); }
-.cv__avatar--2 { width: 46px; height: 46px; font-size: 18px; left: 70%; top: 16%; background: linear-gradient(135deg, #e25aa8, #b53b87); }
-.cv__avatar--3 { width: 58px; height: 58px; font-size: 22px; left: 66%; top: 52%; background: linear-gradient(135deg, #6db33f, #4e8a2a); }
-.cv__avatar--4 { width: 44px; height: 44px; font-size: 17px; left: 22%; top: 58%; background: linear-gradient(135deg, #4d8fd6, #6f8bff); }
-.cv__avatar--5 { width: 40px; height: 40px; font-size: 16px; left: 46%; top: 68%; background: linear-gradient(135deg, #f0a52c, #d6781a); }
-.cv__avatar--6 { width: 38px; height: 38px; font-size: 15px; left: 12%; top: 40%; background: linear-gradient(135deg, #8b3ff5, #3b6bf5); }
-.cv__avatar--7 { width: 42px; height: 42px; font-size: 16px; left: 84%; top: 38%; background: linear-gradient(135deg, #c792ff, #6f9bff); }
+.scope-home .cv__avatar--0 { width: 76px; height: 76px; font-size: 28px; left: 38%; top: 30%; }
+.scope-home .cv__avatar--1 { width: 52px; height: 52px; font-size: 20px; left: 18%; top: 18%; background: linear-gradient(135deg, #3bb7d6, #2a90c8); }
+.scope-home .cv__avatar--2 { width: 46px; height: 46px; font-size: 18px; left: 70%; top: 16%; background: linear-gradient(135deg, #e25aa8, #b53b87); }
+.scope-home .cv__avatar--3 { width: 58px; height: 58px; font-size: 22px; left: 66%; top: 52%; background: linear-gradient(135deg, #6db33f, #4e8a2a); }
+.scope-home .cv__avatar--4 { width: 44px; height: 44px; font-size: 17px; left: 22%; top: 58%; background: linear-gradient(135deg, #4d8fd6, #6f8bff); }
+.scope-home .cv__avatar--5 { width: 40px; height: 40px; font-size: 16px; left: 46%; top: 68%; background: linear-gradient(135deg, #f0a52c, #d6781a); }
+.scope-home .cv__avatar--6 { width: 38px; height: 38px; font-size: 15px; left: 12%; top: 40%; background: linear-gradient(135deg, #8b3ff5, #3b6bf5); }
+.scope-home .cv__avatar--7 { width: 42px; height: 42px; font-size: 16px; left: 84%; top: 38%; background: linear-gradient(135deg, #c792ff, #6f9bff); }
 
-.cv__chip {
+.scope-home .cv__chip {
   position: absolute;
   display: inline-flex;
   align-items: center;
@@ -1099,27 +1099,27 @@
   box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4);
 }
 
-.cv__chip i {
+.scope-home .cv__chip i {
   font-size: 13px;
   color: #b388ff;
 }
 
-.cv__chip--users {
+.scope-home .cv__chip--users {
   left: 16px;
   bottom: 18px;
 }
 
-.cv__chip--chat {
+.scope-home .cv__chip--chat {
   right: 16px;
   top: 18px;
 }
 
 /* ---------- CTA ---------- */
-.cta-wrap {
+.scope-home .cta-wrap {
   padding-top: clamp(56px, 9vh, 110px);
 }
 
-.cta {
+.scope-home .cta {
   display: flex;
   align-items: center;
   gap: 24px;
@@ -1132,7 +1132,7 @@
   box-shadow: 0 36px 80px rgba(40, 20, 120, 0.3);
 }
 
-.cta__icon {
+.scope-home .cta__icon {
   flex-shrink: 0;
   width: 60px;
   height: 60px;
@@ -1145,30 +1145,30 @@
   box-shadow: 0 14px 34px rgba(99, 60, 245, 0.5);
 }
 
-.cta__text {
+.scope-home .cta__text {
   flex: 1;
   min-width: 0;
 }
 
-.cta__title {
+.scope-home .cta__title {
   font-size: clamp(20px, 2.4vw, 28px);
   font-weight: 800;
   letter-spacing: -0.4px;
   margin-bottom: 6px;
 }
 
-.cta__subtitle {
+.scope-home .cta__subtitle {
   font-size: 14.5px;
   line-height: 1.5;
   color: var(--muted);
 }
 
-.cta__btn {
+.scope-home .cta__btn {
   flex-shrink: 0;
 }
 
 /* ---------- Footer ---------- */
-.footer {
+.scope-home .footer {
   position: relative;
   z-index: 1;
   margin-top: clamp(48px, 8vh, 90px);
@@ -1176,7 +1176,7 @@
   background: rgba(6, 5, 12, 0.6);
 }
 
-.footer__inner {
+.scope-home .footer__inner {
   width: 100%;
   max-width: var(--container);
   margin-inline: auto;
@@ -1186,7 +1186,7 @@
   gap: 40px;
 }
 
-.footer__tagline {
+.scope-home .footer__tagline {
   max-width: 280px;
   margin: 16px 0 20px;
   font-size: 14px;
@@ -1194,12 +1194,12 @@
   color: var(--muted);
 }
 
-.footer__socials {
+.scope-home .footer__socials {
   display: flex;
   gap: 10px;
 }
 
-.footer__social {
+.scope-home .footer__social {
   width: 38px;
   height: 38px;
   border-radius: 11px;
@@ -1214,46 +1214,46 @@
 }
 
 @media (hover: hover) and (pointer: fine) {
-  .footer__social:hover {
+  .scope-home .footer__social:hover {
     color: #fff;
     border-color: rgba(139, 92, 255, 0.5);
     transform: translateY(-2px);
   }
 }
 
-.footer__col {
+.scope-home .footer__col {
   display: flex;
   flex-direction: column;
   gap: 12px;
 }
 
-.footer__col-title {
+.scope-home .footer__col-title {
   font-size: 14px;
   font-weight: 700;
   margin-bottom: 4px;
 }
 
-.footer__col-title--sm {
+.scope-home .footer__col-title--sm {
   margin-top: 18px;
 }
 
-.footer__link {
+.scope-home .footer__link {
   font-size: 14px;
   color: var(--muted);
   transition: color 160ms var(--ease-out);
 }
 
-.footer__link--static {
+.scope-home .footer__link--static {
   cursor: default;
 }
 
 @media (hover: hover) and (pointer: fine) {
-  .footer__link:not(.footer__link--static):hover {
+  .scope-home .footer__link:not(.footer__link--static):hover {
     color: var(--text);
   }
 }
 
-.footer__bottom {
+.scope-home .footer__bottom {
   border-top: 1px solid rgba(120, 120, 170, 0.1);
   padding: 22px 28px 30px;
   text-align: center;
@@ -1286,25 +1286,25 @@
   }
 }
 
-.hero__col > * {
+.scope-home .hero__col > * {
   animation: enter-up 600ms var(--ease-out) both;
 }
-.hero__col--visual {
+.scope-home .hero__col--visual {
   animation: enter-visual 760ms var(--ease-out) 180ms both;
 }
-.badge {
+.scope-home .badge {
   animation-delay: 40ms;
 }
-.hero__title {
+.scope-home .hero__title {
   animation-delay: 120ms;
 }
-.hero__desc {
+.scope-home .hero__desc {
   animation-delay: 200ms;
 }
-.hero__actions {
+.scope-home .hero__actions {
   animation-delay: 280ms;
 }
-.hero__stats {
+.scope-home .hero__stats {
   animation-delay: 360ms;
 }
 
@@ -1313,7 +1313,7 @@
    сразу, а если JS не сработал — тоже (data-revealed не появится → останься
    видимым только если движение отключено, иначе хук всё равно покажет). */
 @media (prefers-reduced-motion: no-preference) {
-  .reveal {
+  .scope-home .reveal {
     opacity: 0;
     transform: translateY(22px);
     transition: opacity 620ms var(--ease-out), transform 620ms var(--ease-out);
@@ -1321,127 +1321,127 @@
   }
 
   /* Визуал/карточки — добавляем лёгкий масштаб для глубины. */
-  .reveal--scale {
+  .scope-home .reveal--scale {
     transform: translateY(22px) scale(0.985);
   }
 
-  [data-revealed] .reveal {
+  .scope-home [data-revealed] .reveal {
     opacity: 1;
     transform: none;
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .hero__col > *,
-  .hero__col--visual,
-  .hv__window,
-  .hv__review,
-  .accent {
+  .scope-home .hero__col > *,
+  .scope-home .hero__col--visual,
+  .scope-home .hv__window,
+  .scope-home .hv__review,
+  .scope-home .accent {
     animation: none;
   }
-  .hv__caret {
+  .scope-home .hv__caret {
     display: none;
   }
-  .btn:active,
-  .btn--primary:hover,
-  .course-row:hover,
-  .course-row:hover .course-row__icon,
-  .tech__tag:hover,
-  .ct__more:hover .ct__more-icon,
-  .footer__social:hover {
+  .scope-home .btn:active,
+  .scope-home .btn--primary:hover,
+  .scope-home .course-row:hover,
+  .scope-home .course-row:hover .course-row__icon,
+  .scope-home .tech__tag:hover,
+  .scope-home .ct__more:hover .ct__more-icon,
+  .scope-home .footer__social:hover {
     transform: none;
   }
 }
 
 /* ---------- Responsive ---------- */
 @media (max-width: 980px) {
-  .header__nav,
-  .header__actions {
+  .scope-home .header__nav,
+  .scope-home .header__actions {
     display: none;
   }
-  .header__burger {
+  .scope-home .header__burger {
     display: inline-flex;
   }
-  .header__mobile {
+  .scope-home .header__mobile {
     display: flex;
   }
 
-  .hero {
+  .scope-home .hero {
     grid-template-columns: 1fr;
     gap: 44px;
   }
-  .hero__col--visual {
+  .scope-home .hero__col--visual {
     order: -1;
   }
 
-  .value__inner {
+  .scope-home .value__inner {
     grid-template-columns: 1fr;
   }
-  .ct__inner,
-  .community__inner {
+  .scope-home .ct__inner,
+  .scope-home .community__inner {
     grid-template-columns: 1fr;
   }
 
-  .formats__grid {
+  .scope-home .formats__grid {
     grid-template-columns: 1fr;
     gap: 56px;
   }
-  .community__visual {
+  .scope-home .community__visual {
     max-width: 460px;
     width: 100%;
     margin-inline: auto;
   }
 
-  .footer__inner {
+  .scope-home .footer__inner {
     grid-template-columns: 1fr 1fr;
     gap: 32px;
   }
 
-  .cta {
+  .scope-home .cta {
     flex-direction: column;
     text-align: center;
   }
 }
 
 @media (max-width: 620px) {
-  .header__inner,
-  .hero,
-  .section {
+  .scope-home .header__inner,
+  .scope-home .hero,
+  .scope-home .section {
     padding-inline: 18px;
   }
 
-  .value__grid {
+  .scope-home .value__grid {
     grid-template-columns: 1fr;
   }
 
-  .hv__review {
+  .scope-home .hv__review {
     position: static;
     width: 100%;
     margin-top: 16px;
   }
 
-  .course-row {
+  .scope-home .course-row {
     grid-template-columns: auto 1fr;
     grid-template-areas:
       'icon body'
       'rating price';
     row-gap: 10px;
   }
-  .course-row__icon {
+  .scope-home .course-row__icon {
     grid-area: icon;
   }
-  .course-row__body {
+  .scope-home .course-row__body {
     grid-area: body;
   }
-  .course-row__rating {
+  .scope-home .course-row__rating {
     grid-area: rating;
   }
-  .course-row__price {
+  .scope-home .course-row__price {
     grid-area: price;
     text-align: right;
   }
 
-  .footer__inner {
+  .scope-home .footer__inner {
     grid-template-columns: 1fr;
   }
 }

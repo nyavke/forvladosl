@@ -1,0 +1,219 @@
+/* ============================================================
+   Плавающий мини-плеер (главная страница).
+   Палитра — общая неоновая (см. index.css). Класс .player*
+   уникален и ни с чем на сайте не пересекается.
+   ============================================================ */
+
+.player {
+  position: fixed;
+  right: 24px;
+  bottom: 24px;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 16px;
+  /* контейнер не перехватывает клики мимо элементов */
+  pointer-events: none;
+}
+
+/* ---------- Незаметная стрелочка-переключатель ---------- */
+.player__toggle {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  border: none;
+  background: transparent;
+  color: var(--muted-2);
+  font-size: 16px;
+  display: grid;
+  place-items: center;
+  pointer-events: auto;
+  opacity: 0.45;
+  transition:
+    opacity 0.25s var(--ease-out),
+    color 0.25s var(--ease-out);
+}
+
+.player__toggle:hover {
+  opacity: 1;
+  color: var(--text);
+}
+
+/* Лёгкая подсветка, когда трек играет (но всё ещё ненавязчиво) */
+.player__toggle.is-playing {
+  opacity: 0.7;
+  color: var(--accent);
+}
+
+.player__toggle.is-playing:hover {
+  opacity: 1;
+}
+
+.player__toggle-arrow {
+  transition: transform 0.3s var(--ease-out);
+}
+
+/* Когда плеер открыт — стрелка смотрит вниз (свернуть) */
+.player__toggle.is-open .player__toggle-arrow {
+  transform: rotate(180deg);
+}
+
+/* ---------- Карточка плеера ---------- */
+.player__card {
+  position: relative;
+  width: 268px;
+  padding: 16px;
+  border-radius: 22px;
+  background: var(--card);
+  backdrop-filter: blur(22px);
+  -webkit-backdrop-filter: blur(22px);
+  border: 1px solid var(--card-border);
+  box-shadow:
+    0 28px 64px rgba(0, 0, 0, 0.55),
+    0 8px 24px rgba(123, 47, 245, 0.22);
+  transform-origin: bottom right;
+  opacity: 0;
+  transform: translateY(14px) scale(0.95);
+  pointer-events: none;
+  transition:
+    opacity 0.32s var(--ease-out),
+    transform 0.32s var(--ease-out);
+}
+
+.player__card.is-open {
+  opacity: 1;
+  transform: none;
+  pointer-events: auto;
+}
+
+/* Градиентная окантовка карточки */
+.player__card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1px;
+  background: var(--grad-soft);
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  opacity: 0.55;
+  pointer-events: none;
+}
+
+.player__cover {
+  border-radius: 16px;
+  overflow: hidden;
+  aspect-ratio: 1 / 1;
+  box-shadow: 0 14px 34px rgba(123, 47, 245, 0.35);
+}
+
+.player__cover img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.player__meta {
+  margin-top: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.player__title {
+  font-size: 18px;
+  font-weight: 800;
+  letter-spacing: -0.2px;
+  color: var(--text);
+}
+
+.player__artist {
+  font-size: 14px;
+  color: var(--muted);
+}
+
+/* ---------- Полоса прогресса ---------- */
+.player__bar {
+  position: relative;
+  margin-top: 16px;
+  height: 6px;
+  border-radius: 99px;
+  background: var(--field-border);
+  cursor: pointer;
+}
+
+.player__bar-fill {
+  position: relative;
+  height: 100%;
+  border-radius: 99px;
+  background: var(--grad);
+}
+
+.player__bar-knob {
+  position: absolute;
+  right: -5px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 0 8px rgba(123, 47, 245, 0.85);
+}
+
+.player__times {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 8px;
+  font-size: 12px;
+  color: var(--muted-2);
+}
+
+/* ---------- Кнопка play/pause ---------- */
+.player__play {
+  margin: 14px auto 2px;
+  display: grid;
+  place-items: center;
+  width: 58px;
+  height: 58px;
+  border-radius: 50%;
+  border: none;
+  background: var(--grad);
+  color: #fff;
+  font-size: 20px;
+  box-shadow: 0 14px 32px rgba(123, 47, 245, 0.5);
+  transition: transform 0.2s var(--ease-out);
+}
+
+.player__play:hover {
+  transform: scale(1.07);
+}
+
+.player__play:active {
+  transform: scale(0.96);
+}
+
+@media (max-width: 620px) {
+  .player {
+    right: 16px;
+    bottom: 16px;
+  }
+  .player__card {
+    width: 240px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .player__eq span {
+    animation: none;
+  }
+  .player__card {
+    transition: opacity 0.2s linear;
+    transform: none;
+  }
+}

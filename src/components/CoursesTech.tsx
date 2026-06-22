@@ -9,10 +9,7 @@ import {
 } from './icons'
 import { useReveal } from '../hooks/useReveal'
 
-/**
- * Статичные данные для превью. На бою заменяются getPopularCourses()
- * и getTechnologies() (см. api/content.ts).
- */
+/** Статичные данные для превью. */
 const courses = [
   {
     icon: JavaIcon,
